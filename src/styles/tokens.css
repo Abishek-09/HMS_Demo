@@ -1,73 +1,106 @@
 /* =====================================================================
-   DESIGN TOKENS - GREENLEAF FAMILY CLINIC
+   DESIGN TOKENS — SANTOSH CHILD CARE (REFINED SPECIFICATION)
+   One source of truth for color, typography, spacing, radius, and shadows.
    ===================================================================== */
 
 :root {
-  /* Brand Palette */
-  --color-primary:        #2C5745;   /* deep forest green — dominant brand */
-  --color-primary-dark:   #24473A;   /* hover / pressed / gradient */
-  --color-primary-mid:    #3D6E58;   /* secondary buttons, icons */
-  --color-primary-tint:   #E7EFEA;   /* hover rows, selected states, mode chips */
-  --color-accent:         #EBE3A7;   /* warm pale gold — accent only (<= 10%) */
-  --color-accent-tint:    #F5F0C9;   /* accent hover / unpaid badge bg */
+  /* -------------------------------------------------------------------
+     1. COLOR PALETTE (Consolidated — No Legacy Hexes)
+     ------------------------------------------------------------------- */
+  --color-primary:        #245744;   /* sidebar, primary buttons, links, invoice band */
+  --color-primary-hover:  #1D4636;   /* hover / pressed state */
+  --color-primary-tint:   #E8F0EB;   /* selected rows, hover backgrounds, soft chips */
 
-  /* Neutrals */
-  --color-bg:             #FAF9F2;   /* app background (warm off-white) */
-  --color-surface:        #FFFFFF;   /* cards, tables, modals */
-  --color-text:           #1E2A24;   /* primary text (green-black) */
-  --color-text-muted:     #5F6F67;   /* secondary text, labels */
-  --color-border:         #DCE3DE;   /* dividers, input borders */
-  --color-danger:         #B3261E;   /* validation errors, destructive */
-  --color-warning:        #8A6A17;   /* unpaid status chip text */
+  --color-bg:             #F7F7F2;   /* page background */
+  --color-surface:        #FFFFFF;   /* cards, tables, modals, inputs */
 
-  /* Typography */
-  --font-sans:            'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-size-xs:         12px;
-  --font-size-sm:         14px;
-  --font-size-base:       16px;
-  --font-size-lg:         20px;
-  --font-size-xl:         24px;
-  --font-size-2xl:        32px;
+  --color-accent:         #F2E6A0;   /* date chip, active nav pill, unpaid chip */
+  --color-accent-tint:    #F8F2CC;   /* accent hover / badge background */
+  --color-accent-text:    #6B5A12;   /* accessible text on accent chip */
 
-  --line-height-body:     1.5;
-  --line-height-heading:  1.2;
+  --color-border:         #E1E7E2;   /* all borders, dividers, input outlines */
 
-  --font-weight-regular:  400;
-  --font-weight-medium:   500;
-  --font-weight-semibold: 600;
-  --font-weight-bold:     700;
+  --color-text:           #23342D;   /* primary text */
+  --color-text-secondary: #53645B;   /* labels, meta, table secondary text */
 
-  /* Shape & Radii */
-  --radius-sm:            4px;
-  --radius-md:            8px;       /* inputs, buttons */
-  --radius-lg:            12px;      /* cards */
-  --radius-xl:            16px;      /* modals */
-  --radius-full:          9999px;    /* chips, pills */
+  --color-error:          #B3261E;   /* validation, destructive actions only */
+  --color-error-tint:     #FBEAE9;   /* error field background / inline error bg */
 
-  /* Shadows */
-  --shadow-sm:            0 1px 2px rgba(44, 87, 69, 0.06);
-  --shadow-md:            0 4px 12px rgba(44, 87, 69, 0.08);
-  --shadow-lg:            0 8px 24px rgba(44, 87, 69, 0.12);
-  --shadow-modal:         0 8px 24px rgba(44, 87, 69, 0.16);
+  /* -------------------------------------------------------------------
+     2. TYPOGRAPHY (Inter, 4 weights only: 400, 500, 600, 700)
+     ------------------------------------------------------------------- */
+  --font-sans:            'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Spacing Scale */
+  /* Scale: Size / Weight / Line-Height */
+  --text-page-title:      600 28px/36px var(--font-sans);  /* Main page heading (one per page) */
+  --text-kpi:             700 28px/34px var(--font-sans);  /* KPI numbers only */
+  --text-section:         600 18px/26px var(--font-sans);  /* Section headings */
+  --text-card-title:      600 15px/22px var(--font-sans);  /* Card titles */
+  --text-nav:             500 15px/22px var(--font-sans);  /* Sidebar navigation labels */
+  --text-body:            400 14px/21px var(--font-sans);  /* Body copy, table data */
+  --text-table-head:      600 14px/20px var(--font-sans);  /* Table column headers */
+  --text-label:           500 13px/18px var(--font-sans);  /* Form labels */
+  --text-secondary:       400 13px/19px var(--font-sans);  /* Secondary/meta text */
+  --text-meta-sm:         400 12px/17px var(--font-sans);  /* Timestamps, helper text */
+  --text-button:          600 14px/20px var(--font-sans);  /* All button labels */
+
+  /* Font sizes (for granular CSS usage) */
+  --font-size-title:      28px;
+  --font-size-section:    18px;
+  --font-size-card:       15px;
+  --font-size-nav:        15px;
+  --font-size-body:       14px;
+  --font-size-label:      13px;
+  --font-size-meta:       12px;
+
+  /* -------------------------------------------------------------------
+     3. SPACING & SIZING (8px System)
+     ------------------------------------------------------------------- */
   --space-1:              4px;
   --space-2:              8px;
   --space-3:              12px;
   --space-4:              16px;
   --space-6:              24px;
   --space-8:              32px;
-  --space-12:             48px;
+
+  /* Shape & Radii */
+  --radius-card:          12px;
+  --radius-control:       8px;
+  --radius-chip:          999px;
+  --radius-sm:            4px;
+  --radius-modal:         16px;
+
+  /* Shadows (Minimal per spec) */
+  --shadow-card:          0 1px 2px rgba(35, 52, 45, 0.05);
+  --shadow-modal:         0 8px 24px rgba(35, 52, 45, 0.10);
+
+  /* Layout Metrics */
+  --sidebar-width:        248px;
+  --sidebar-collapsed:    72px;
+  --topbar-height:        68px;
+  --main-padding:         24px 28px;
+  --table-header-height:  48px;
+  --table-row-height:     62px;
+  --control-height:       40px;
+  --control-height-sm:    32px;
+  --control-height-lg:    44px;
 
   /* Transitions */
   --transition-fast:      150ms ease-in-out;
   --transition-normal:    200ms ease-in-out;
 
-  /* Focus ring */
-  --focus-ring:           0 0 0 2px #FFFFFF, 0 0 0 4px var(--color-primary);
+  /* Focus Ring */
+  --focus-ring:           0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-primary);
 
-  /* Layout dimensions */
-  --sidebar-width:        240px;
-  --sidebar-collapsed:    72px;
-  --topbar-height:        64px;
+  /* Compatibility Aliases (mapped 1:1 to consolidated tokens) */
+  --color-primary-dark:   var(--color-primary-hover);
+  --color-text-muted:     var(--color-text-secondary);
+  --color-danger:         var(--color-error);
+  --color-danger-tint:    var(--color-error-tint);
+  --radius-full:          var(--radius-chip);
+  --radius-lg:            var(--radius-card);
+  --radius-md:            var(--radius-control);
+  --shadow-sm:            var(--shadow-card);
+  --shadow-md:            var(--shadow-card);
+  --shadow-lg:            var(--shadow-modal);
 }

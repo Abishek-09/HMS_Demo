@@ -45,11 +45,11 @@ export default function Table({
                   <div style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
                     <span>{col.header}</span>
                     {isSortable && (
-                      <span style={{ color: isCurrentSort ? "var(--color-primary)" : "var(--color-text-muted)" }}>
+                      <span style={{ color: isCurrentSort ? "var(--color-primary)" : "var(--color-text-secondary)" }}>
                         {isCurrentSort ? (
                           sortDirection === "asc" ? <ArrowUp size={14} /> : <ArrowDown size={14} />
                         ) : (
-                          <ArrowUpDown size={14} opacity={0.4} />
+                          <ArrowUpDown size={14} opacity={0.5} />
                         )}
                       </span>
                     )}
@@ -63,32 +63,32 @@ export default function Table({
           {loading ? (
             <tr>
               <td colSpan={columns.length} style={{ textAlign: "center", padding: "32px" }}>
-                <span style={{ color: "var(--color-text-muted)", fontSize: "var(--font-size-sm)" }}>
+                <span style={{ color: "var(--color-text-secondary)", fontSize: "14px" }}>
                   Loading records...
                 </span>
               </td>
             </tr>
           ) : data.length === 0 ? (
             <tr>
-              <td colSpan={columns.length} style={{ textAlign: "center", padding: "40px" }}>
+              <td colSpan={columns.length} style={{ textAlign: "center", padding: "32px 16px" }}>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
                   {emptyIcon && (
                     <div
                       style={{
-                        width: "48px",
-                        height: "48px",
-                        borderRadius: "var(--radius-full)",
-                        backgroundColor: "var(--color-accent-tint)",
+                        width: "44px",
+                        height: "44px",
+                        borderRadius: "var(--radius-control)",
+                        backgroundColor: "var(--color-primary-tint)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        color: "var(--color-warning)",
+                        color: "var(--color-primary)",
                       }}
                     >
                       {emptyIcon}
                     </div>
                   )}
-                  <span style={{ color: "var(--color-text-muted)", fontSize: "var(--font-size-sm)" }}>
+                  <span style={{ color: "var(--color-text-secondary)", fontSize: "14px", fontWeight: "400" }}>
                     {emptyMessage}
                   </span>
                 </div>
@@ -118,17 +118,17 @@ export default function Table({
             padding: "12px 16px",
             borderTop: "1px solid var(--color-border)",
             backgroundColor: "var(--color-surface)",
-            fontSize: "var(--font-size-xs)",
-            color: "var(--color-text-muted)",
+            fontSize: "13px",
+            color: "var(--color-text-secondary)",
           }}
         >
-          <div>
+          <div className="tabular-nums">
             Showing {(currentPage - 1) * pageSize + 1}–{Math.min(currentPage * pageSize, totalCount)} of {totalCount} records
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <Button
-              variant="outline"
+              variant="secondary"
               size="sm"
               disabled={currentPage <= 1}
               onClick={() => onPageChange(currentPage - 1)}
@@ -136,11 +136,11 @@ export default function Table({
             >
               Prev
             </Button>
-            <span style={{ fontWeight: "600", color: "var(--color-primary)" }}>
+            <span style={{ fontWeight: "600", color: "var(--color-text)" }} className="tabular-nums">
               Page {currentPage} of {totalPages}
             </span>
             <Button
-              variant="outline"
+              variant="secondary"
               size="sm"
               disabled={currentPage >= totalPages}
               onClick={() => onPageChange(currentPage + 1)}

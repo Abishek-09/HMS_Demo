@@ -189,8 +189,8 @@ export default function Billing() {
             style={{
               display: "inline-flex",
               backgroundColor: "var(--color-surface)",
-              padding: "4px",
-              borderRadius: "var(--radius-full)",
+              padding: "3px",
+              borderRadius: "var(--radius-control)",
               border: "1px solid var(--color-border)",
             }}
           >
@@ -203,13 +203,14 @@ export default function Billing() {
                   setCurrentPage(1);
                 }}
                 style={{
-                  padding: "6px 18px",
-                  borderRadius: "var(--radius-full)",
-                  fontSize: "var(--font-size-sm)",
-                  fontWeight: filter === f ? "700" : "500",
+                  padding: "6px 16px",
+                  borderRadius: "calc(var(--radius-control) - 2px)",
+                  fontSize: "13px",
+                  fontWeight: filter === f ? "600" : "500",
                   backgroundColor: filter === f ? "var(--color-primary)" : "transparent",
-                  color: filter === f ? "#FFFFFF" : "var(--color-text-muted)",
+                  color: filter === f ? "#FFFFFF" : "var(--color-text-secondary)",
                   transition: "all var(--transition-fast)",
+                  cursor: "pointer",
                 }}
               >
                 {f} Bills

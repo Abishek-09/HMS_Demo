@@ -45,11 +45,11 @@ export default function SearchBar({
       className={`search-bar ${className}`}
     >
       <Search
-        size={16}
+        size={18}
         style={{
           position: "absolute",
           left: "12px",
-          color: "var(--color-text-muted)",
+          color: "var(--color-text-secondary)",
           pointerEvents: "none",
         }}
       />
@@ -60,15 +60,16 @@ export default function SearchBar({
         onChange={(e) => setTerm(e.target.value)}
         placeholder={placeholder}
         aria-label="Search"
+        className="form-control"
         style={{
           width: "100%",
           height: "40px",
-          padding: "8px 36px 8px 36px",
-          borderRadius: "var(--radius-md)",
+          padding: "0 36px 0 38px",
+          borderRadius: "var(--radius-control)",
           border: "1px solid var(--color-border)",
           backgroundColor: "var(--color-surface)",
           color: "var(--color-text)",
-          fontSize: "var(--font-size-sm)",
+          fontSize: "14px",
           outline: "none",
           transition: "border-color var(--transition-fast), box-shadow var(--transition-fast)",
         }}
@@ -82,11 +83,13 @@ export default function SearchBar({
           style={{
             position: "absolute",
             right: "10px",
-            color: "var(--color-text-muted)",
+            color: "var(--color-text-secondary)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             padding: "4px",
+            borderRadius: "var(--radius-control)",
+            cursor: "pointer",
           }}
         >
           <X size={14} />

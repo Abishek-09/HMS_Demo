@@ -19,49 +19,55 @@ export default function EmptyState({
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        padding: "48px 24px",
+        padding: "32px 16px",
         background: "transparent",
         ...style,
       }}
       className={`empty-state ${className}`}
     >
-      {/* Accent illustration block with #EBE3A7 */}
-      <div
-        style={{
-          width: "72px",
-          height: "72px",
-          borderRadius: "var(--radius-lg)",
-          backgroundColor: "var(--color-accent)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "var(--color-primary)",
-          marginBottom: "16px",
-          boxShadow: "0 2px 8px rgba(44, 87, 69, 0.08)",
-        }}
-      >
-        {Icon ? <Icon size={34} strokeWidth={1.8} /> : null}
-      </div>
+      {Icon && (
+        <div
+          style={{
+            width: "52px",
+            height: "52px",
+            borderRadius: "var(--radius-control)",
+            backgroundColor: "var(--color-primary-tint)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "var(--color-primary)",
+            marginBottom: "12px",
+          }}
+        >
+          <Icon size={26} strokeWidth={2} />
+        </div>
+      )}
 
-      <h3
-        style={{
-          fontSize: "var(--font-size-base)",
-          fontWeight: "600",
-          color: "var(--color-text)",
-          marginBottom: "6px",
-        }}
-      >
-        {title}
-      </h3>
+      {title && (
+        <h3
+          className="text-card-title"
+          style={{
+            fontSize: "15px",
+            fontWeight: "600",
+            lineHeight: "22px",
+            color: "var(--color-text)",
+            margin: "0 0 4px 0",
+          }}
+        >
+          {title}
+        </h3>
+      )}
 
       {description && (
         <p
+          className="text-secondary"
           style={{
-            fontSize: "var(--font-size-sm)",
-            color: "var(--color-text-muted)",
+            fontSize: "13px",
+            fontWeight: "400",
+            lineHeight: "19px",
+            color: "var(--color-text-secondary)",
+            margin: "0 0 16px 0",
             maxWidth: "360px",
-            lineHeight: "1.5",
-            marginBottom: actionText ? "20px" : "0",
           }}
         >
           {description}
@@ -69,7 +75,7 @@ export default function EmptyState({
       )}
 
       {actionText && onAction && (
-        <Button variant="primary" onClick={onAction} icon={actionIcon}>
+        <Button variant="primary" onClick={onAction} icon={actionIcon} size="md">
           {actionText}
         </Button>
       )}

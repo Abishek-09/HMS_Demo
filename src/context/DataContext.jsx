@@ -45,7 +45,7 @@ export function DataProvider({ children }) {
     dispatch({ type: "ADD_TOAST", payload: { id, message, type } });
     setTimeout(() => {
       dispatch({ type: "REMOVE_TOAST", payload: id });
-    }, 3500);
+    }, 4000);
   };
 
   const removeToast = (id) => {

@@ -4,18 +4,39 @@ import TopBar from "./TopBar";
 import ToastContainer from "./Toast";
 
 export default function AppShell({ title, children }) {
-  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth < 900);
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1440
+  );
+  const [isCollapsed, setIsCollapsed] = useState(
+    typeof window !== "undefined" ? window.innerWidth < 1024 : false
+  );
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  // Auto-collapse below 900px
   useEffect(() => {
     function handleResize() {
-      if (window.innerWidth < 900) {
+      const w = window.innerWidth;
+      setWindowWidth(w);
+      if (w < 768) {
+        setIsCollapsed(false);
+      } else if (w < 1024) {
         setIsCollapsed(true);
+        setIsMobileOpen(false);
+      } else {
+        setIsCollapsed(false);
+        setIsMobileOpen(false);
       }
     }
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const handleToggle = () => {
+    if (windowWidth < 768) {
+      setIsMobileOpen(!isMobileOpen);
+    } else {
+      setIsCollapsed(!isCollapsed);
+    }
+  };
 
   return (
     <div
@@ -23,11 +44,14 @@ export default function AppShell({ title, children }) {
         display: "flex",
         minHeight: "100vh",
         backgroundColor: "var(--color-bg)",
+        overflowX: "hidden",
       }}
     >
       <Sidebar
-        isCollapsed={isCollapsed}
-        onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
+        isCollapsed={windowWidth < 768 ? false : isCollapsed}
+        isMobileOpen={windowWidth < 768 && isMobileOpen}
+        onCloseMobile={() => setIsMobileOpen(false)}
+        onToggleCollapse={handleToggle}
       />
 
       <div
@@ -35,21 +59,20 @@ export default function AppShell({ title, children }) {
           flex: 1,
           display: "flex",
           flexDirection: "column",
-          minWidth: 0, // prevents flex overflow
+          minWidth: 0,
         }}
       >
         <TopBar
           title={title}
-          onToggleSidebar={() => setIsCollapsed(!isCollapsed)}
+          onToggleSidebar={handleToggle}
         />
 
         <main
           style={{
             flex: 1,
-            padding: "24px",
-            maxWidth: "1400px",
+            padding: windowWidth < 768 ? "16px" : windowWidth < 1440 ? "20px 24px" : "24px 28px",
             width: "100%",
-            margin: "0 auto",
+            boxSizing: "border-box",
           }}
         >
           {children}

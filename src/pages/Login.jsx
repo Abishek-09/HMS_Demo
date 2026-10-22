@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Stethoscope, Lock, Mail, ShieldCheck, Sparkles } from "lucide-react";
+import { Lock, Mail, ShieldCheck, Sparkles } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useData } from "../context/DataContext";
 import Button from "../components/Button";
@@ -52,7 +52,7 @@ export default function Login() {
         backgroundColor: "var(--color-bg)",
       }}
     >
-      {/* Left Brand Panel (#2C5745) */}
+      {/* Left Brand Panel (Flat #245744 per spec) */}
       <div
         style={{
           flex: "1 1 45%",
@@ -63,39 +63,10 @@ export default function Login() {
           flexDirection: "column",
           justifyContent: "space-between",
           position: "relative",
-          overflow: "hidden",
         }}
       >
-        {/* Soft #EBE3A7 background decorative accents */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-80px",
-            right: "-80px",
-            width: "320px",
-            height: "320px",
-            borderRadius: "50%",
-            backgroundColor: "var(--color-accent)",
-            opacity: 0.12,
-            pointerEvents: "none",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "-60px",
-            left: "-60px",
-            width: "280px",
-            height: "280px",
-            borderRadius: "50%",
-            backgroundColor: "var(--color-accent)",
-            opacity: 0.08,
-            pointerEvents: "none",
-          }}
-        />
-
         {/* Brand Header */}
-        <div style={{ position: "relative", zIndex: 2 }}>
+        <div>
           <div
             style={{
               display: "inline-flex",
@@ -108,8 +79,8 @@ export default function Login() {
               style={{
                 width: "48px",
                 height: "48px",
-                borderRadius: "var(--radius-full)",
-                backgroundColor: "var(--color-primary-dark)",
+                borderRadius: "var(--radius-control)",
+                backgroundColor: "rgba(255, 255, 255, 0.12)",
                 border: "2px solid var(--color-accent)",
                 display: "flex",
                 alignItems: "center",
@@ -123,7 +94,7 @@ export default function Login() {
                   color: "var(--color-accent)",
                 }}
               >
-                {clinicConfig.logoText || "GF"}
+                {clinicConfig.logoText || "SC"}
               </span>
             </div>
             <div>
@@ -133,6 +104,7 @@ export default function Login() {
                   fontWeight: "700",
                   color: "#FFFFFF",
                   margin: 0,
+                  lineHeight: "26px",
                 }}
               >
                 {clinicConfig.name}
@@ -141,7 +113,7 @@ export default function Login() {
                 style={{
                   fontSize: "13px",
                   color: "var(--color-accent)",
-                  margin: 0,
+                  margin: "2px 0 0",
                 }}
               >
                 Clinic Management System
@@ -151,16 +123,16 @@ export default function Login() {
         </div>
 
         {/* Center Doctor / Clinic Info */}
-        <div style={{ position: "relative", zIndex: 2, maxWidth: "440px" }}>
+        <div style={{ maxWidth: "440px" }}>
           <div
             style={{
               display: "inline-flex",
               alignItems: "center",
               gap: "8px",
-              backgroundColor: "rgba(235, 227, 167, 0.15)",
+              backgroundColor: "rgba(242, 230, 160, 0.15)",
               color: "var(--color-accent)",
               padding: "6px 14px",
-              borderRadius: "var(--radius-full)",
+              borderRadius: "var(--radius-control)",
               fontSize: "13px",
               fontWeight: "600",
               marginBottom: "20px",
@@ -172,10 +144,10 @@ export default function Login() {
 
           <h2
             style={{
-              fontSize: "30px",
+              fontSize: "28px",
               fontWeight: "700",
               color: "#FFFFFF",
-              lineHeight: 1.25,
+              lineHeight: "36px",
               marginBottom: "16px",
             }}
           >
@@ -183,9 +155,9 @@ export default function Login() {
           </h2>
           <p
             style={{
-              fontSize: "15px",
-              color: "rgba(255, 255, 255, 0.82)",
-              lineHeight: 1.6,
+              fontSize: "14px",
+              color: "rgba(255, 255, 255, 0.85)",
+              lineHeight: "22px",
               marginBottom: "28px",
             }}
           >
@@ -195,24 +167,24 @@ export default function Login() {
 
           <div
             style={{
-              backgroundColor: "rgba(36, 71, 58, 0.7)",
-              borderRadius: "var(--radius-lg)",
+              backgroundColor: "rgba(255, 255, 255, 0.08)",
+              borderRadius: "var(--radius-card)",
               padding: "16px 20px",
-              border: "1px solid rgba(235, 227, 167, 0.2)",
+              border: "1px solid rgba(255, 255, 255, 0.12)",
             }}
           >
             <p style={{ fontSize: "14px", fontWeight: "600", color: "#FFFFFF", margin: 0 }}>
               {clinicConfig.doctor}
             </p>
-            <p style={{ fontSize: "12px", color: "var(--color-accent)", margin: "2px 0 0" }}>
+            <p style={{ fontSize: "12px", color: "var(--color-accent)", margin: "4px 0 0" }}>
               {clinicConfig.quals} • {clinicConfig.designation || "Consultant Pediatrician"}
             </p>
           </div>
         </div>
 
         {/* Footer */}
-        <div style={{ position: "relative", zIndex: 2 }}>
-          <p style={{ fontSize: "12px", color: "rgba(255, 255, 255, 0.7)", margin: 0 }}>
+        <div>
+          <p style={{ fontSize: "12px", color: "rgba(255, 255, 255, 0.75)", margin: 0, lineHeight: "18px" }}>
             {clinicConfig.address} • Consulting Time: {clinicConfig.timings} • Cell: {clinicConfig.phone}
           </p>
         </div>
@@ -233,24 +205,26 @@ export default function Login() {
             width: "100%",
             maxWidth: "420px",
             backgroundColor: "var(--color-surface)",
-            padding: "40px",
-            borderRadius: "var(--radius-lg)",
+            padding: "36px",
+            borderRadius: "var(--radius-card)",
             border: "1px solid var(--color-border)",
-            boxShadow: "var(--shadow-md)",
+            boxShadow: "var(--shadow-card)",
           }}
         >
-          <div style={{ marginBottom: "28px" }}>
+          <div style={{ marginBottom: "24px" }}>
             <h2
+              className="text-page-title"
               style={{
                 fontSize: "24px",
-                fontWeight: "700",
-                color: "var(--color-primary)",
+                fontWeight: "600",
+                lineHeight: "32px",
+                color: "var(--color-text)",
                 marginBottom: "6px",
               }}
             >
               Sign In to Practice
             </h2>
-            <p style={{ fontSize: "var(--font-size-sm)", color: "var(--color-text-muted)", margin: 0 }}>
+            <p className="text-secondary" style={{ fontSize: "13px", color: "var(--color-text-secondary)", margin: 0 }}>
               Enter your clinical credentials to access your dashboard.
             </p>
           </div>
@@ -258,12 +232,13 @@ export default function Login() {
           {error && (
             <div
               style={{
-                backgroundColor: "#FDF2F2",
-                border: "1px solid rgba(179, 38, 30, 0.3)",
-                color: "var(--color-danger)",
+                backgroundColor: "var(--color-error-tint)",
+                border: "1px solid rgba(179, 38, 30, 0.25)",
+                color: "var(--color-error)",
                 padding: "10px 14px",
-                borderRadius: "var(--radius-md)",
-                fontSize: "var(--font-size-sm)",
+                borderRadius: "var(--radius-control)",
+                fontSize: "13px",
+                lineHeight: "18px",
                 marginBottom: "20px",
               }}
               role="alert"
@@ -309,11 +284,11 @@ export default function Login() {
           {/* Subtle Demo Credentials Hint Card */}
           <div
             style={{
-              marginTop: "28px",
-              padding: "14px",
-              borderRadius: "var(--radius-md)",
+              marginTop: "24px",
+              padding: "14px 16px",
+              borderRadius: "var(--radius-control)",
               backgroundColor: "var(--color-primary-tint)",
-              border: "1px solid rgba(44, 87, 69, 0.15)",
+              border: "1px solid var(--color-border)",
               display: "flex",
               flexDirection: "column",
               gap: "8px",
@@ -337,16 +312,17 @@ export default function Login() {
                 type="button"
                 onClick={handleFillDemo}
                 style={{
-                  fontSize: "11px",
+                  fontSize: "12px",
                   fontWeight: "600",
                   color: "var(--color-primary)",
                   textDecoration: "underline",
+                  cursor: "pointer",
                 }}
               >
                 Auto-fill
               </button>
             </div>
-            <div style={{ fontSize: "12px", color: "var(--color-text-muted)" }}>
+            <div style={{ fontSize: "12px", color: "var(--color-text-secondary)", lineHeight: "18px" }}>
               Email: <code style={{ color: "var(--color-primary)", fontWeight: "600" }}>doctor@clinic.test</code>
               <br />
               Password: <code style={{ color: "var(--color-primary)", fontWeight: "600" }}>demo1234</code>

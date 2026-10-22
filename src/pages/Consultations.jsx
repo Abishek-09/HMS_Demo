@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Stethoscope, Eye, Printer, Plus, User } from "lucide-react";
+import { Stethoscope, Eye, Printer, Plus } from "lucide-react";
 import AppShell from "../components/AppShell";
 import Button from "../components/Button";
 import SearchBar from "../components/SearchBar";
@@ -79,61 +79,81 @@ export default function Consultations() {
 
   const columns = [
     {
-      header: "Visit ID",
-      accessor: "id",
-      cellStyle: { fontWeight: "600", color: "var(--color-primary)", whiteSpace: "nowrap" },
-    },
-    {
-      header: "Date & Time",
-      accessor: "dateTime",
-      cellStyle: { whiteSpace: "nowrap" },
-      render: (v) => formatDate(v.dateTime, true),
-    },
-    {
       header: "Patient",
       accessor: "patientId",
       render: (v) => {
         const patient = patientsMap.get(v.patientId);
-        return patient ? (
-          <span
-            onClick={() => navigate(`/patients/${patient.id}`)}
-            style={{ fontWeight: "600", color: "var(--color-primary)", cursor: "pointer" }}
-            onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
-            onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
-          >
-            {patient.name}
-          </span>
-        ) : (
-          v.patientId
+        return (
+          <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+            <span
+              onClick={() => patient && navigate(`/patients/${patient.id}`)}
+              style={{
+                fontSize: "14px",
+                fontWeight: "600",
+                lineHeight: "20px",
+                color: "var(--color-primary)",
+                cursor: patient ? "pointer" : "default",
+              }}
+              onMouseEnter={(e) => {
+                if (patient) e.currentTarget.style.textDecoration = "underline";
+              }}
+              onMouseLeave={(e) => {
+                if (patient) e.currentTarget.style.textDecoration = "none";
+              }}
+            >
+              {patient ? patient.name : v.patientId}
+            </span>
+            <span
+              className="tabular-nums"
+              style={{
+                fontSize: "12px",
+                fontWeight: "400",
+                lineHeight: "17px",
+                color: "var(--color-text-secondary)",
+              }}
+            >
+              {patient ? patient.id : v.patientId}
+            </span>
+          </div>
         );
       },
     },
     {
-      header: "Chief Complaint",
-      accessor: "complaint",
-      cellStyle: { maxWidth: "300px" },
+      header: "Time",
+      accessor: "dateTime",
+      cellStyle: { whiteSpace: "nowrap" },
       render: (v) => (
-        <span
-          style={{
-            display: "-webkit-box",
-            WebkitLineClamp: 1,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
-          title={v.complaint}
-        >
-          {v.complaint}
+        <span className="tabular-nums" style={{ fontSize: "14px", color: "var(--color-text)" }}>
+          {formatDate(v.dateTime, true)}
         </span>
       ),
     },
     {
-      header: "Bill Status",
+      header: "Chief Complaint",
+      accessor: "complaint",
+      cellStyle: { maxWidth: "260px" },
+      render: (v) => (
+        <div
+          style={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            fontSize: "14px",
+            color: "var(--color-text)",
+          }}
+          title={v.complaint || "Routine consultation"}
+        >
+          {v.complaint || "Routine consultation"}
+        </div>
+      ),
+    },
+    {
+      header: "Status",
       accessor: "billStatus",
       cellStyle: { whiteSpace: "nowrap" },
       render: (v) => {
         const bill = billMap.get(v.id);
-        if (!bill) return "—";
+        if (!bill) return <Chip variant="unpaid">Pending</Chip>;
         return (
           <Chip variant={bill.status === "Paid" ? "paid" : "unpaid"}>
             {bill.status}
@@ -148,40 +168,80 @@ export default function Consultations() {
       headerStyle: { textAlign: "right" },
       render: (v) => {
         const rx = rxMap.get(v.id);
-        const bill = billMap.get(v.id);
 
         return (
-          <div style={{ display: "inline-flex", gap: "6px" }}>
-            <Button
-              variant="outline"
-              size="sm"
-              icon={Eye}
+          <div style={{ display: "inline-flex", gap: "8px", justifyContent: "flex-end" }}>
+            <button
+              type="button"
+              className="btn-icon"
               onClick={() => navigate(`/consultations/${v.id}`)}
+              title="View consultation"
+              aria-label="View consultation"
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "var(--radius-control)",
+                border: "1px solid var(--color-border)",
+                backgroundColor: "var(--color-surface)",
+                color: "var(--color-text-secondary)",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                transition: "all var(--transition-fast)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "var(--color-primary-tint)";
+                e.currentTarget.style.color = "var(--color-primary)";
+                e.currentTarget.style.borderColor = "var(--color-primary)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "var(--color-surface)";
+                e.currentTarget.style.color = "var(--color-text-secondary)";
+                e.currentTarget.style.borderColor = "var(--color-border)";
+              }}
             >
-              View
-            </Button>
-            {rx && (
-              <Button
-                variant="outline"
-                size="sm"
-                icon={Printer}
-                onClick={() => navigate(`/print/prescription/${rx.id}`)}
-                title="Print Prescription"
-              >
-                Rx
-              </Button>
-            )}
-            {bill && (
-              <Button
-                variant="secondary"
-                size="sm"
-                icon={Printer}
-                onClick={() => navigate(`/print/receipt/${bill.id}`)}
-                title="Print Receipt"
-              >
-                Receipt
-              </Button>
-            )}
+              <Eye size={18} strokeWidth={2} />
+            </button>
+
+            <button
+              type="button"
+              className="btn-icon"
+              onClick={() => {
+                if (rx) {
+                  navigate(`/print/prescription/${rx.id}`);
+                } else {
+                  navigate(`/consultations/${v.id}`);
+                }
+              }}
+              title="Print prescription"
+              aria-label="Print prescription"
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "var(--radius-control)",
+                border: "1px solid var(--color-border)",
+                backgroundColor: "var(--color-surface)",
+                color: "var(--color-text-secondary)",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                transition: "all var(--transition-fast)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "var(--color-primary-tint)";
+                e.currentTarget.style.color = "var(--color-primary)";
+                e.currentTarget.style.borderColor = "var(--color-primary)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "var(--color-surface)";
+                e.currentTarget.style.color = "var(--color-text-secondary)";
+                e.currentTarget.style.borderColor = "var(--color-border)";
+              }}
+            >
+              <Printer size={18} strokeWidth={2} />
+            </button>
           </div>
         );
       },
@@ -222,7 +282,7 @@ export default function Consultations() {
           <div
             style={{
               backgroundColor: "var(--color-surface)",
-              borderRadius: "var(--radius-lg)",
+              borderRadius: "var(--radius-card)",
               border: "1px solid var(--color-border)",
             }}
           >

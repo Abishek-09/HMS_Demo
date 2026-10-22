@@ -4,17 +4,18 @@ import PrintLayout from "../components/PrintLayout";
 import { getPrescriptionById } from "../services/prescriptions";
 import { getPatientById } from "../services/patients";
 import { getVisitById } from "../services/visits";
-import { getClinicConfig } from "../config/clinic";
+import { useData } from "../context/DataContext";
 import { formatDate } from "../utils/format";
+import "../styles/print.css";
 
 export default function PrintPrescription() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { clinicConfig } = useData();
 
   const [prescription, setPrescription] = useState(null);
   const [patient, setPatient] = useState(null);
   const [visit, setVisit] = useState(null);
-  const [clinic, setClinic] = useState(getClinicConfig());
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,17 +27,18 @@ export default function PrintPrescription() {
     try {
       const rx = await getPrescriptionById(id);
       if (!rx) {
-        navigate("/patients");
+        navigate("/consultations");
         return;
       }
       setPrescription(rx);
 
-      const [pat, vis] = await Promise.all([
-        getPatientById(rx.patientId),
-        getVisitById(rx.visitId),
-      ]);
+      const pat = await getPatientById(rx.patientId);
       setPatient(pat);
-      setVisit(vis);
+
+      if (rx.visitId) {
+        const v = await getVisitById(rx.visitId);
+        setVisit(v);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -44,9 +46,11 @@ export default function PrintPrescription() {
     }
   };
 
+  const clinic = clinicConfig;
+
   if (loading) {
     return (
-      <PrintLayout title="Prescription">
+      <PrintLayout title="Loading Prescription...">
         <div style={{ textAlign: "center", padding: "40px" }}>Loading prescription...</div>
       </PrintLayout>
     );
@@ -60,7 +64,7 @@ export default function PrintPrescription() {
       backTo={patient ? `/patients/${patient.id}` : "/patients"}
     >
       <div className="print-page">
-        {/* Header Band in #2C5745 */}
+        {/* Header Band in #245744 */}
         <div className="print-header-band">
           <div>
             <h1>{clinic.name}</h1>
@@ -74,7 +78,7 @@ export default function PrintPrescription() {
             <h2 style={{ fontSize: "15px", fontWeight: "700", color: "#FFFFFF", margin: 0 }}>
               {clinic.doctor}
             </h2>
-            <p style={{ margin: "2px 0 0", color: "#EBE3A7" }}>{clinic.quals}</p>
+            <p style={{ margin: "2px 0 0", color: "var(--color-accent)" }}>{clinic.quals}</p>
             <p style={{ margin: "2px 0 0", color: "#FFFFFF", fontSize: "11px" }}>
               {clinic.designation || "Consultant Pediatrician"}
             </p>
@@ -101,7 +105,7 @@ export default function PrintPrescription() {
         {visit && (
           <div className="print-block page-break-avoid">
             <div className="print-block-title">Clinical Findings & Vitals</div>
-            <p style={{ margin: "4px 0 8px", fontSize: "12px", color: "#1E2A24" }}>
+            <p style={{ margin: "4px 0 8px", fontSize: "12px", color: "var(--color-text)" }}>
               <strong>Chief Complaint:</strong> {visit.complaint}
             </p>
 
@@ -113,14 +117,13 @@ export default function PrintPrescription() {
                 <div
                   style={{
                     display: "flex",
-                    gap: "20px",
+                    gap: "16px",
+                    flexWrap: "wrap",
                     fontSize: "11px",
-                    color: "#333333",
-                    backgroundColor: "#F9FAF9",
+                    backgroundColor: "var(--color-bg)",
                     padding: "6px 10px",
                     borderRadius: "4px",
-                    border: "1px solid #E5E7EB",
-                    marginBottom: "12px",
+                    border: "1px solid var(--color-border)",
                   }}
                 >
                   {visit.observations.weight && (
@@ -135,7 +138,7 @@ export default function PrintPrescription() {
                   )}
                   {visit.observations.bp && (
                     <span>
-                      <strong>Blood Pressure:</strong> {visit.observations.bp}
+                      <strong>BP:</strong> {visit.observations.bp}
                     </span>
                   )}
                   {visit.observations.pulse && (
@@ -167,18 +170,18 @@ export default function PrintPrescription() {
             {prescription.medicines && prescription.medicines.length > 0 ? (
               prescription.medicines.map((m, idx) => (
                 <tr key={idx}>
-                  <td style={{ fontWeight: "600", color: "#666" }}>{idx + 1}</td>
+                  <td style={{ fontWeight: "600", color: "var(--color-text-secondary)" }}>{idx + 1}</td>
                   <td>
-                    <strong style={{ color: "#2C5745" }}>{m.name}</strong>
+                    <strong style={{ color: "var(--color-primary)" }}>{m.name}</strong>
                     {m.strength && (
-                      <span style={{ color: "#555", marginLeft: "6px" }}>({m.strength})</span>
+                      <span style={{ color: "var(--color-text-secondary)", marginLeft: "6px" }}>({m.strength})</span>
                     )}
                   </td>
                   <td>{m.dosage}</td>
                   <td>{m.frequency}</td>
                   <td>{m.duration}</td>
                   <td>{m.quantity}</td>
-                  <td style={{ fontStyle: "italic", color: "#444" }}>{m.instructions || "—"}</td>
+                  <td style={{ fontStyle: "italic", color: "var(--color-text-secondary)" }}>{m.instructions || "—"}</td>
                 </tr>
               ))
             ) : (
@@ -195,7 +198,7 @@ export default function PrintPrescription() {
         {visit && visit.notes && (
           <div className="print-block page-break-avoid" style={{ marginTop: "16px" }}>
             <div className="print-block-title">Doctor's Clinical Notes & Advice</div>
-            <p style={{ margin: "4px 0 0", fontSize: "11px", lineHeight: 1.5, color: "#333" }}>
+            <p style={{ margin: "4px 0 0", fontSize: "11px", lineHeight: 1.5, color: "var(--color-text)" }}>
               {visit.notes}
             </p>
           </div>
@@ -204,13 +207,13 @@ export default function PrintPrescription() {
         {/* Signature Area */}
         <div className="signature-area page-break-avoid">
           <div className="signature-line">
-            <p style={{ fontWeight: "700", color: "#2C5745", margin: 0 }}>
+            <p style={{ fontWeight: "700", color: "var(--color-primary)", margin: 0 }}>
               {clinic.doctor}
             </p>
-            <p style={{ fontSize: "11px", color: "#555", margin: "2px 0 0" }}>
+            <p style={{ fontSize: "11px", color: "var(--color-text-secondary)", margin: "2px 0 0" }}>
               {clinic.quals} • {clinic.designation || "Consultant Pediatrician"}
             </p>
-            <p style={{ fontSize: "10px", color: "#888", margin: "2px 0 0" }}>
+            <p style={{ fontSize: "10px", color: "var(--color-text-secondary)", margin: "2px 0 0" }}>
               Authorized Signature
             </p>
           </div>
@@ -219,12 +222,12 @@ export default function PrintPrescription() {
         {/* Footer Note */}
         <div
           style={{
-            borderTop: "1px solid #DCE3DE",
+            borderTop: "1px solid var(--color-border)",
             paddingTop: "8px",
             marginTop: "24px",
             textAlign: "center",
             fontSize: "10px",
-            color: "#666",
+            color: "var(--color-text-secondary)",
           }}
         >
           {clinic.name} • {clinic.address} • Consulting Time: {clinic.timings} • Cell: {clinic.phone}

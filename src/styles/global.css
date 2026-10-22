@@ -1,6 +1,8 @@
 @import './tokens.css';
 
-/* CSS Reset & Base */
+/* =====================================================================
+   CSS RESET & BASE
+   ===================================================================== */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -13,8 +15,9 @@ html, body {
 
 body {
   font-family: var(--font-sans);
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-body);
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
   color: var(--color-text);
   background-color: var(--color-bg);
   -webkit-font-smoothing: antialiased;
@@ -27,19 +30,115 @@ body {
   flex-direction: column;
 }
 
-/* Headings */
-h1, h2, h3, h4, h5, h6 {
+/* =====================================================================
+   TYPOGRAPHY SCALE (§1 of Specification)
+   Four weights only: 400, 500, 600, 700
+   ===================================================================== */
+.text-page-title {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 36px;
   color: var(--color-text);
-  line-height: var(--line-height-heading);
-  font-weight: var(--font-weight-bold);
 }
 
-h1 { font-size: var(--font-size-2xl); }
-h2 { font-size: var(--font-size-xl); }
-h3 { font-size: var(--font-size-lg); }
-h4 { font-size: var(--font-size-base); }
-h5 { font-size: var(--font-size-sm); }
-h6 { font-size: var(--font-size-xs); }
+.text-kpi {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 34px;
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.text-section {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 26px;
+  color: var(--color-text);
+}
+
+.text-card-title {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 22px;
+  color: var(--color-text);
+}
+
+.text-nav {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.text-body {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  color: var(--color-text);
+}
+
+.text-table-head {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--color-text-secondary);
+}
+
+.text-label {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  color: var(--color-text-secondary);
+}
+
+.text-secondary {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 19px;
+  color: var(--color-text-secondary);
+}
+
+.text-meta-sm {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 17px;
+  color: var(--color-text-secondary);
+}
+
+.text-button {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+/* Tabular Numerals for currency, metrics, timestamps */
+.tabular-nums,
+[data-tabular="true"] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Headings default */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+h1 { font-size: 28px; font-weight: 600; line-height: 36px; }
+h2 { font-size: 18px; font-weight: 600; line-height: 26px; }
+h3 { font-size: 15px; font-weight: 600; line-height: 22px; }
+h4 { font-size: 14px; font-weight: 600; line-height: 20px; }
+h5 { font-size: 13px; font-weight: 500; line-height: 18px; }
+h6 { font-size: 12px; font-weight: 500; line-height: 17px; }
 
 p {
   margin-bottom: var(--space-2);
@@ -52,15 +151,17 @@ a {
 }
 
 a:hover {
-  color: var(--color-primary-dark);
+  color: var(--color-primary-hover);
   text-decoration: underline;
 }
 
-/* Focus styles */
+/* =====================================================================
+   GLOBAL KEYBOARD FOCUS (§6)
+   2px #245744 outline with 2px offset on every interactive element
+   ===================================================================== */
 :focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
-  border-radius: var(--radius-sm);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 /* Form element resets */
@@ -76,15 +177,21 @@ button {
   background: none;
 }
 
-/* Button Styles & Hover Effects */
+/* =====================================================================
+   BUTTON RECIPE (§3, §6)
+   Heights: 40px (sm 32px, lg 44px), radius 8px, padding 12px 16px
+   ===================================================================== */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-weight: 500;
-  border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  border-radius: var(--radius-control);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
   cursor: pointer;
   border: 1px solid transparent;
   text-decoration: none;
@@ -95,29 +202,29 @@ button {
 
 .btn:disabled {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 /* Button Sizes */
 .btn-size-sm {
   padding: 6px 12px;
-  font-size: var(--font-size-xs);
-  height: 32px;
+  font-size: 13px;
+  height: var(--control-height-sm); /* 32px */
 }
 
 .btn-size-md {
-  padding: 8px 16px;
-  font-size: var(--font-size-sm);
-  height: 40px;
+  padding: 10px 16px;
+  font-size: 14px;
+  height: var(--control-height); /* 40px */
 }
 
 .btn-size-lg {
-  padding: 10px 20px;
-  font-size: var(--font-size-base);
-  height: 48px;
+  padding: 12px 20px;
+  font-size: 15px;
+  height: var(--control-height-lg); /* 44px */
 }
 
-/* Button Variants & Hovers */
+/* Button Variants */
 .btn-primary {
   background-color: var(--color-primary) !important;
   color: #FFFFFF !important;
@@ -125,31 +232,19 @@ button {
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: var(--color-primary-dark) !important;
-  border-color: var(--color-primary-dark) !important;
-  box-shadow: 0 4px 12px rgba(44, 87, 69, 0.25) !important;
-  transform: translateY(-1px);
-}
-
-.btn-primary:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: none !important;
+  background-color: var(--color-primary-hover) !important;
+  border-color: var(--color-primary-hover) !important;
 }
 
 .btn-secondary {
-  background-color: var(--color-primary-tint) !important;
-  color: var(--color-primary) !important;
-  border-color: transparent !important;
+  background-color: var(--color-surface) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background-color: #D8E5DD !important;
-  color: var(--color-primary-dark) !important;
-  transform: translateY(-1px);
-}
-
-.btn-secondary:active:not(:disabled) {
-  transform: translateY(0);
+  background-color: var(--color-primary-tint) !important;
+  color: var(--color-primary) !important;
 }
 
 .btn-outline {
@@ -161,45 +256,312 @@ button {
 .btn-outline:hover:not(:disabled) {
   background-color: var(--color-primary-tint) !important;
   border-color: var(--color-primary) !important;
-  color: var(--color-primary-dark) !important;
 }
 
 .btn-danger {
   background-color: transparent !important;
-  color: var(--color-danger) !important;
+  color: var(--color-error) !important;
   border-color: var(--color-border) !important;
 }
 
 .btn-danger:hover:not(:disabled) {
-  background-color: #FDF2F2 !important;
-  border-color: var(--color-danger) !important;
+  background-color: var(--color-error-tint) !important;
+  border-color: var(--color-error) !important;
 }
 
 .btn-dangerSolid {
-  background-color: var(--color-danger) !important;
+  background-color: var(--color-error) !important;
   color: #FFFFFF !important;
-  border-color: var(--color-danger) !important;
+  border-color: var(--color-error) !important;
 }
 
 .btn-dangerSolid:hover:not(:disabled) {
   background-color: #991B1B !important;
   border-color: #991B1B !important;
-  box-shadow: 0 4px 12px rgba(179, 38, 30, 0.25) !important;
-  transform: translateY(-1px);
 }
 
 .btn-text {
   background-color: transparent !important;
-  color: var(--color-text-muted) !important;
+  color: var(--color-text-secondary) !important;
   border-color: transparent !important;
 }
 
 .btn-text:hover:not(:disabled) {
   color: var(--color-primary) !important;
-  background-color: rgba(44, 87, 69, 0.08) !important;
+  background-color: var(--color-primary-tint) !important;
 }
 
-/* Scrollbar styles */
+/* Icon Buttons (40x40px control) */
+.btn-icon {
+  width: var(--control-height);
+  height: var(--control-height);
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface);
+  transition: all var(--transition-fast);
+}
+
+.btn-icon:hover:not(:disabled) {
+  background-color: var(--color-primary-tint);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* =====================================================================
+   FORM CONTROLS RECIPE (§6)
+   Height: 40px, 1px #E1E7E2 border, 8px radius, 12px horizontal padding
+   Focus: border #245744 + 2px #245744 ring at 20% opacity
+   ===================================================================== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: var(--space-4);
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  color: var(--color-text-secondary);
+}
+
+.form-control {
+  width: 100%;
+  height: var(--control-height);
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  outline: none;
+}
+
+.form-control:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(36, 87, 68, 0.20);
+}
+
+.form-control:disabled {
+  background-color: var(--color-bg);
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+}
+
+.form-control.is-invalid {
+  border-color: var(--color-error);
+}
+
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 17px;
+  color: var(--color-error);
+  margin-top: 2px;
+}
+
+.form-helper {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 17px;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+/* =====================================================================
+   TABLE RECIPE (§3, §5)
+   Header 48px, rows 60-64px, horizontal cell padding 16px
+   Hover: #E8F0EB at 50% opacity
+   ===================================================================== */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.data-table th {
+  height: var(--table-header-height); /* 48px */
+  background-color: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.data-table td {
+  height: var(--table-row-height); /* 62px */
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  vertical-align: middle;
+}
+
+.data-table tbody tr {
+  transition: background-color var(--transition-fast);
+}
+
+.data-table tbody tr:hover {
+  background-color: rgba(232, 240, 235, 0.50); /* #E8F0EB at 50% opacity */
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* =====================================================================
+   CARD & MODAL RECIPES (§3, §5, §6)
+   ===================================================================== */
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.card-compact {
+  padding: 16px;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(35, 52, 45, 0.40);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal-dialog {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-modal); /* 16px */
+  padding: 24px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: var(--shadow-modal);
+  position: relative;
+}
+
+/* =====================================================================
+   CHIP / BADGE STYLES (§2)
+   Paid: #E8F0EB bg, #245744 text, 1px rgba(36, 87, 68, 0.20) border
+   Unpaid: #F2E6A0 bg, #6B5A12 text
+   Mode: #E8F0EB bg, #245744 text
+   ===================================================================== */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-chip);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.chip-paid {
+  background-color: var(--color-primary-tint);
+  color: var(--color-primary);
+  border: 1px solid rgba(36, 87, 68, 0.20);
+}
+
+.chip-unpaid {
+  background-color: var(--color-accent);
+  color: var(--color-accent-text);
+  border: 1px solid rgba(107, 90, 18, 0.20);
+}
+
+.chip-mode {
+  background-color: var(--color-primary-tint);
+  color: var(--color-primary);
+  border: 1px solid transparent;
+}
+
+.chip-date {
+  background-color: var(--color-accent);
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  border-radius: var(--radius-control);
+  padding: 8px 12px;
+}
+
+/* =====================================================================
+   TOAST STYLES (§6)
+   Bottom-right, 12px radius, white surface, 1px border,
+   left accent bar in #245744 (success) or #B3261E (error)
+   ===================================================================== */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left-width: 4px;
+  border-radius: var(--radius-card);
+  padding: 12px 16px;
+  box-shadow: 0 4px 16px rgba(35, 52, 45, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 280px;
+  max-width: 400px;
+  animation: slideInBottom 0.2s ease-out forwards;
+}
+
+.toast-success {
+  border-left-color: var(--color-primary);
+}
+
+.toast-error {
+  border-left-color: var(--color-error);
+}
+
+/* =====================================================================
+   SCROLLBAR & ANIMATIONS
+   ===================================================================== */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -211,14 +573,13 @@ button {
 
 ::-webkit-scrollbar-thumb {
   background: var(--color-border);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-chip);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-muted);
+  background: var(--color-text-secondary);
 }
 
-/* Animations */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -229,9 +590,9 @@ button {
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes slideInRight {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+@keyframes slideInBottom {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .animate-fade-in {
@@ -242,61 +603,35 @@ button {
   animation: spin 0.8s linear infinite;
 }
 
-/* Common Layout Utilities */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--space-4);
+/* =====================================================================
+   RESPONSIVE MEDIA QUERIES (§8)
+   ===================================================================== */
+@media (max-width: 1023px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
-.card {
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  box-shadow: var(--shadow-sm);
+@media (max-width: 767px) {
+  .sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000 !important;
+    transform: translateX(-100%);
+    box-shadow: 4px 0 24px rgba(35, 52, 45, 0.2);
+  }
+  .sidebar.sidebar-mobile-open {
+    transform: translateX(0) !important;
+  }
 }
 
-.table-container {
-  width: 100%;
-  overflow-x: auto;
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-  font-size: var(--font-size-sm);
-}
-
-.data-table th {
-  background-color: var(--color-surface);
-  color: var(--color-primary);
-  font-weight: var(--font-weight-semibold);
-  padding: var(--space-3) var(--space-4);
-  border-bottom: 2px solid var(--color-border);
-  white-space: nowrap;
-}
-
-.data-table td {
-  padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--color-border);
-  color: var(--color-text);
-}
-
-.data-table tbody tr {
-  transition: background-color var(--transition-fast);
-}
-
-.data-table tbody tr:hover {
-  background-color: var(--color-primary-tint);
-}
-
-.data-table tbody tr:last-child td {
-  border-bottom: none;
+@media (max-width: 640px) {
+  .topbar {
+    padding: 0 16px !important;
+  }
+  .topbar .date-chip {
+    display: none !important;
+  }
 }

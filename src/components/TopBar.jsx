@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Menu, LogOut, User, Calendar } from "lucide-react";
+import { Menu, LogOut, User, Calendar, ChevronDown } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useData } from "../context/DataContext";
 import { formatDate } from "../utils/format";
-import Chip from "./Chip";
 
 export default function TopBar({ title, onToggleSidebar }) {
   const { user, logout } = useAuth();
@@ -27,41 +26,50 @@ export default function TopBar({ title, onToggleSidebar }) {
     <header
       className="topbar"
       style={{
-        height: "var(--topbar-height)",
+        height: "var(--topbar-height)", /* 68px */
         backgroundColor: "var(--color-surface)",
         borderBottom: "1px solid var(--color-border)",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "0 24px",
+        padding: "0 28px",
         position: "sticky",
         top: 0,
         zIndex: 40,
-        boxShadow: "var(--shadow-sm)",
+        boxShadow: "none", /* no shadow per §4 */
       }}
     >
+      {/* Left side: Hamburger (40x40) + Page Title (--text-page-title) */}
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         <button
           type="button"
           onClick={onToggleSidebar}
-          aria-label="Toggle navigation menu"
+          aria-label="Toggle navigation"
+          title="Toggle navigation"
+          className="btn-icon"
           style={{
-            padding: "8px",
-            borderRadius: "var(--radius-md)",
-            color: "var(--color-primary)",
+            width: "40px",
+            height: "40px",
+            borderRadius: "var(--radius-control)",
+            border: "1px solid var(--color-border)",
+            backgroundColor: "var(--color-surface)",
+            color: "var(--color-text)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            cursor: "pointer",
           }}
         >
           <Menu size={20} />
         </button>
 
         <h1
+          className="text-page-title"
           style={{
-            fontSize: "var(--font-size-lg)",
-            fontWeight: "700",
-            color: "var(--color-primary)",
+            fontSize: "28px",
+            fontWeight: "600",
+            lineHeight: "36px",
+            color: "var(--color-text)",
             margin: 0,
           }}
         >
@@ -69,14 +77,30 @@ export default function TopBar({ title, onToggleSidebar }) {
         </h1>
       </div>
 
+      {/* Right side: Single Date Chip + Doctor Block Dropdown */}
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        {/* Today's date chip in #EBE3A7 */}
-        <Chip variant="accent" size="md">
-          <Calendar size={13} style={{ marginRight: "2px" }} />
+        {/* Date Chip: #F2E6A0 background, #23342D text, 13px/500, 8px radius, 8px 12px padding */}
+        <div
+          className="date-chip"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            backgroundColor: "var(--color-accent)",
+            color: "var(--color-text)",
+            fontSize: "13px",
+            fontWeight: "500",
+            lineHeight: "18px",
+            borderRadius: "8px",
+            padding: "8px 12px",
+            whiteSpace: "nowrap",
+          }}
+        >
+          <Calendar size={14} style={{ color: "var(--color-text)", flexShrink: 0 }} />
           <span>Today: {todayStr}</span>
-        </Chip>
+        </div>
 
-        {/* Doctor Avatar Menu */}
+        {/* Doctor Block: 32px avatar, name at 14px/600, role at 12px/400 secondary, 8px gap */}
         <div style={{ position: "relative" }} ref={menuRef}>
           <button
             type="button"
@@ -87,38 +111,58 @@ export default function TopBar({ title, onToggleSidebar }) {
               display: "flex",
               alignItems: "center",
               gap: "8px",
-              padding: "4px 8px",
-              borderRadius: "var(--radius-full)",
+              padding: "4px 8px 4px 4px",
+              borderRadius: "var(--radius-control)",
               border: "1px solid var(--color-border)",
               backgroundColor: "var(--color-surface)",
-              transition: "all var(--transition-fast)",
+              cursor: "pointer",
+              transition: "border-color var(--transition-fast)",
             }}
           >
             <div
               style={{
                 width: "32px",
                 height: "32px",
-                borderRadius: "var(--radius-full)",
+                borderRadius: "var(--radius-control)",
                 backgroundColor: "var(--color-primary)",
                 color: "#FFFFFF",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: "13px",
-                fontWeight: "600",
+                fontSize: "12px",
+                fontWeight: "700",
+                flexShrink: 0,
               }}
             >
               DR
             </div>
-            <span
-              style={{
-                fontSize: "var(--font-size-sm)",
-                fontWeight: "500",
-                color: "var(--color-text)",
-              }}
-            >
-              {clinicConfig.doctor}
-            </span>
+
+            <div style={{ textAlign: "left", lineHeight: "1.2" }}>
+              <div
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "600",
+                  lineHeight: "18px",
+                  color: "var(--color-text)",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {clinicConfig.doctor || "Dr. B. Sivakumar"}
+              </div>
+              <div
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "400",
+                  lineHeight: "16px",
+                  color: "var(--color-text-secondary)",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {clinicConfig.designation || clinicConfig.quals || "Consultant"}
+              </div>
+            </div>
+
+            <ChevronDown size={14} style={{ color: "var(--color-text-secondary)", marginLeft: "4px" }} />
           </button>
 
           {menuOpen && (
@@ -129,9 +173,9 @@ export default function TopBar({ title, onToggleSidebar }) {
                 top: "calc(100% + 8px)",
                 width: "220px",
                 backgroundColor: "var(--color-surface)",
-                borderRadius: "var(--radius-md)",
+                borderRadius: "var(--radius-card)",
                 border: "1px solid var(--color-border)",
-                boxShadow: "var(--shadow-md)",
+                boxShadow: "var(--shadow-modal)",
                 padding: "8px 0",
                 zIndex: 100,
                 animation: "fadeIn 0.15s ease-out",
@@ -146,9 +190,9 @@ export default function TopBar({ title, onToggleSidebar }) {
               >
                 <p
                   style={{
-                    fontSize: "var(--font-size-sm)",
+                    fontSize: "14px",
                     fontWeight: "600",
-                    color: "var(--color-primary)",
+                    color: "var(--color-text)",
                     margin: 0,
                   }}
                 >
@@ -156,12 +200,12 @@ export default function TopBar({ title, onToggleSidebar }) {
                 </p>
                 <p
                   style={{
-                    fontSize: "var(--font-size-xs)",
-                    color: "var(--color-text-muted)",
-                    margin: 0,
+                    fontSize: "12px",
+                    color: "var(--color-text-secondary)",
+                    margin: "2px 0 0",
                   }}
                 >
-                  {user?.doctorEmail || "doctor@clinic.test"}
+                  {user?.email || "doctor@clinic.test"}
                 </p>
               </div>
 
@@ -173,20 +217,22 @@ export default function TopBar({ title, onToggleSidebar }) {
                 }}
                 style={{
                   width: "100%",
+                  padding: "8px 16px",
+                  textAlign: "left",
+                  fontSize: "13px",
+                  fontWeight: "500",
+                  color: "var(--color-error)",
                   display: "flex",
                   alignItems: "center",
-                  gap: "10px",
-                  padding: "8px 16px",
-                  fontSize: "var(--font-size-sm)",
-                  color: "var(--color-danger)",
-                  textAlign: "left",
-                  transition: "background-color var(--transition-fast)",
+                  gap: "8px",
+                  backgroundColor: "transparent",
+                  cursor: "pointer",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FDF2F2")}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--color-error-tint)")}
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
               >
-                <LogOut size={16} />
-                <span>Log out</span>
+                <LogOut size={14} />
+                <span>Sign Out</span>
               </button>
             </div>
           )}

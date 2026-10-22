@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import { AlertCircle } from "lucide-react";
 
 const Input = forwardRef(function Input(
   {
@@ -27,17 +28,19 @@ const Input = forwardRef(function Input(
       {label && (
         <label
           htmlFor={inputId}
+          className="text-label"
           style={{
-            fontSize: "var(--font-size-sm)",
+            fontSize: "13px",
             fontWeight: "500",
-            color: "var(--color-text)",
+            lineHeight: "18px",
+            color: "var(--color-text-secondary)",
             display: "flex",
             alignItems: "center",
             gap: "4px",
           }}
         >
           <span>{label}</span>
-          {required && <span style={{ color: "var(--color-danger)" }}>*</span>}
+          {required && <span style={{ color: "var(--color-error)" }}>*</span>}
         </label>
       )}
 
@@ -54,8 +57,8 @@ const Input = forwardRef(function Input(
             style={{
               position: "absolute",
               left: "12px",
-              color: "var(--color-text-muted)",
-              fontSize: "var(--font-size-sm)",
+              color: "var(--color-text-secondary)",
+              fontSize: "14px",
               pointerEvents: "none",
             }}
           >
@@ -71,17 +74,19 @@ const Input = forwardRef(function Input(
           onChange={onChange}
           placeholder={placeholder}
           disabled={disabled}
+          className={`form-control ${error ? "is-invalid" : ""}`}
           style={{
             width: "100%",
             height: "40px",
-            padding: `8px 12px 8px ${prefix ? "32px" : "12px"}`,
+            padding: `0 12px 0 ${prefix ? "34px" : "12px"}`,
             paddingRight: suffix ? "36px" : "12px",
-            borderRadius: "var(--radius-md)",
-            border: `1px solid ${error ? "var(--color-danger)" : "var(--color-border)"}`,
+            borderRadius: "var(--radius-control)",
+            border: `1px solid ${error ? "var(--color-error)" : "var(--color-border)"}`,
             backgroundColor: disabled ? "var(--color-bg)" : "var(--color-surface)",
-            color: "var(--color-text)",
-            fontSize: "var(--font-size-sm)",
-            lineHeight: "1.5",
+            color: disabled ? "var(--color-text-secondary)" : "var(--color-text)",
+            fontSize: "14px",
+            lineHeight: "21px",
+            cursor: disabled ? "not-allowed" : "text",
             transition: "border-color var(--transition-fast), box-shadow var(--transition-fast)",
           }}
           {...props}
@@ -92,8 +97,8 @@ const Input = forwardRef(function Input(
             style={{
               position: "absolute",
               right: "12px",
-              color: "var(--color-text-muted)",
-              fontSize: "var(--font-size-sm)",
+              color: "var(--color-text-secondary)",
+              fontSize: "14px",
               pointerEvents: "none",
             }}
           >
@@ -103,21 +108,28 @@ const Input = forwardRef(function Input(
       </div>
 
       {error ? (
-        <span
+        <div
+          className="form-error"
           style={{
-            fontSize: "var(--font-size-xs)",
-            color: "var(--color-danger)",
-            fontWeight: "500",
+            display: "flex",
+            alignItems: "center",
+            gap: "4px",
+            fontSize: "12px",
+            color: "var(--color-error)",
+            marginTop: "2px",
           }}
           role="alert"
         >
-          {error}
-        </span>
+          <AlertCircle size={13} style={{ flexShrink: 0 }} />
+          <span>{error}</span>
+        </div>
       ) : helperText ? (
         <span
+          className="text-meta-sm"
           style={{
-            fontSize: "var(--font-size-xs)",
-            color: "var(--color-text-muted)",
+            fontSize: "12px",
+            color: "var(--color-text-secondary)",
+            marginTop: "2px",
           }}
         >
           {helperText}

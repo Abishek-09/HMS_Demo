@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "postinstall": "node -e \"const fs=require('fs'),p='node_modules/rollup/dist/native.js';if(fs.existsSync(p)){let c=fs.readFileSync(p,'utf8');if(!c.includes('@rollup/wasm-node/dist/native.js')){c=c.replace(/if \\(error instanceof Error && error.code === 'ERR_DLOPEN_FAILED'\\) \\{\\s*throw error;\\s*\\}/,\\\"if (error instanceof Error && error.code === 'ERR_DLOPEN_FAILED') { try { return require('@rollup/wasm-node/dist/native.js'); } catch { throw error; } }\\\");fs.writeFileSync(p,c);}}\""
+    "postinstall": "node scripts/patch-rollup.cjs"
   },
   "dependencies": {
     "@rollup/wasm-node": "^4.65.0",

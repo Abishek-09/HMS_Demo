@@ -37,24 +37,23 @@ export default function StepIndicator({
                 alignItems: "center",
                 gap: "8px",
                 cursor: isCompleted && onStepClick ? "pointer" : "default",
-                opacity: isUpcoming ? 0.6 : 1,
               }}
             >
               <div
                 style={{
                   width: "28px",
                   height: "28px",
-                  borderRadius: "var(--radius-full)",
+                  borderRadius: "var(--radius-chip)",
                   backgroundColor: isCompleted
                     ? "var(--color-primary)"
                     : isCurrent
                     ? "var(--color-primary)"
                     : "var(--color-border)",
-                  color: isCompleted || isCurrent ? "#FFFFFF" : "var(--color-text-muted)",
+                  color: isCompleted || isCurrent ? "#FFFFFF" : "var(--color-text-secondary)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "var(--font-size-xs)",
+                  fontSize: "12px",
                   fontWeight: "600",
                   transition: "all var(--transition-fast)",
                   boxShadow: isCurrent ? "0 0 0 3px var(--color-primary-tint)" : "none",
@@ -65,9 +64,10 @@ export default function StepIndicator({
 
               <span
                 style={{
-                  fontSize: "var(--font-size-sm)",
+                  fontSize: "14px",
                   fontWeight: isCurrent ? "600" : "500",
-                  color: isCurrent || isCompleted ? "var(--color-primary)" : "var(--color-text-muted)",
+                  lineHeight: "20px",
+                  color: isCurrent ? "var(--color-primary)" : isCompleted ? "var(--color-text)" : "var(--color-text-secondary)",
                 }}
               >
                 {label}

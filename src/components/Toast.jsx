@@ -9,16 +9,17 @@ export default function ToastContainer() {
 
   return (
     <div
+      className="toast-container"
       style={{
         position: "fixed",
-        top: "20px",
-        right: "20px",
+        bottom: "24px",
+        right: "24px",
         zIndex: 9999,
         display: "flex",
         flexDirection: "column",
         gap: "10px",
-        maxWidth: "380px",
-        width: "100%",
+        maxWidth: "400px",
+        width: "calc(100vw - 48px)",
         pointerEvents: "none",
       }}
       aria-live="polite"
@@ -30,6 +31,7 @@ export default function ToastContainer() {
         return (
           <div
             key={toast.id}
+            className={`toast ${isSuccess ? "toast-success" : isError ? "toast-error" : ""}`}
             style={{
               pointerEvents: "auto",
               display: "flex",
@@ -38,26 +40,33 @@ export default function ToastContainer() {
               padding: "12px 16px",
               backgroundColor: "var(--color-surface)",
               color: "var(--color-text)",
-              borderRadius: "var(--radius-md)",
-              borderLeft: `4px solid ${
-                isSuccess
-                  ? "var(--color-primary)"
-                  : isError
-                  ? "var(--color-danger)"
-                  : "var(--color-primary-mid)"
-              }`,
-              boxShadow: "var(--shadow-md)",
-              animation: "slideInRight 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+              borderRadius: "var(--radius-card)",
               border: "1px solid var(--color-border)",
+              borderLeftWidth: "4px",
+              borderLeftColor: isSuccess
+                ? "var(--color-primary)"
+                : isError
+                ? "var(--color-error)"
+                : "var(--color-text-secondary)",
+              boxShadow: "0 4px 16px rgba(35, 52, 45, 0.10)",
+              animation: "slideInBottom 0.2s ease-out",
             }}
           >
-            <div style={{ flexShrink: 0 }}>
+            <div style={{ flexShrink: 0, display: "flex", alignItems: "center" }}>
               {isSuccess && <CheckCircle2 size={18} color="var(--color-primary)" />}
-              {isError && <AlertCircle size={18} color="var(--color-danger)" />}
-              {!isSuccess && !isError && <Info size={18} color="var(--color-primary-mid)" />}
+              {isError && <AlertCircle size={18} color="var(--color-error)" />}
+              {!isSuccess && !isError && <Info size={18} color="var(--color-text-secondary)" />}
             </div>
 
-            <div style={{ flex: 1, fontSize: "var(--font-size-sm)", fontWeight: "500" }}>
+            <div
+              style={{
+                flex: 1,
+                fontSize: "14px",
+                fontWeight: "500",
+                lineHeight: "20px",
+                color: "var(--color-text)",
+              }}
+            >
               {toast.message}
             </div>
 
@@ -66,13 +75,16 @@ export default function ToastContainer() {
               onClick={() => removeToast(toast.id)}
               aria-label="Close notification"
               style={{
-                color: "var(--color-text-muted)",
-                padding: "2px",
+                color: "var(--color-text-secondary)",
+                padding: "4px",
                 borderRadius: "var(--radius-sm)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                transition: "color var(--transition-fast)",
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-text)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--color-text-secondary)")}
             >
               <X size={16} />
             </button>

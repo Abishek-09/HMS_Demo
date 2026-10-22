@@ -39,8 +39,7 @@ export default function Modal({
       style={{
         position: "fixed",
         inset: 0,
-        backgroundColor: "rgba(30, 42, 36, 0.45)",
-        backdropFilter: "blur(2px)",
+        backgroundColor: "rgba(35, 52, 45, 0.40)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -58,8 +57,8 @@ export default function Modal({
           backgroundColor: "var(--color-surface)",
           width: "100%",
           maxWidth,
-          borderRadius: "var(--radius-xl)",
-          boxShadow: "var(--shadow-modal)",
+          borderRadius: "16px", /* 16px radius per §6 */
+          boxShadow: "0 8px 24px rgba(35, 52, 45, 0.10)", /* single allowed shadow per §2, §6 */
           border: "1px solid var(--color-border)",
           display: "flex",
           flexDirection: "column",
@@ -71,7 +70,7 @@ export default function Modal({
         {/* Header */}
         <div
           style={{
-            padding: "16px 20px",
+            padding: "20px 24px",
             borderBottom: "1px solid var(--color-border)",
             display: "flex",
             alignItems: "center",
@@ -80,10 +79,11 @@ export default function Modal({
           }}
         >
           <h3
+            className="text-card-title"
             style={{
-              fontSize: "var(--font-size-base)",
+              fontSize: "16px",
               fontWeight: "600",
-              color: "var(--color-primary)",
+              color: "var(--color-text)",
               margin: 0,
             }}
           >
@@ -95,14 +95,17 @@ export default function Modal({
               onClick={onClose}
               aria-label="Close dialog"
               style={{
-                color: "var(--color-text-muted)",
+                color: "var(--color-text-secondary)",
                 padding: "4px",
-                borderRadius: "var(--radius-sm)",
+                borderRadius: "var(--radius-control)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 transition: "color var(--transition-fast)",
+                cursor: "pointer",
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-text)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--color-text-secondary)")}
             >
               <X size={20} />
             </button>
@@ -112,7 +115,7 @@ export default function Modal({
         {/* Content */}
         <div
           style={{
-            padding: "20px",
+            padding: "24px",
             overflowY: "auto",
             flex: 1,
           }}
@@ -137,26 +140,26 @@ export function ConfirmModal({
   loading = false,
 }) {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={title} maxWidth="420px">
+    <Modal isOpen={isOpen} onClose={onClose} title={title} maxWidth="440px">
       <div style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
         {isDestructive && (
           <div
             style={{
-              backgroundColor: "#FDF2F2",
-              color: "var(--color-danger)",
+              backgroundColor: "var(--color-error-tint)",
+              color: "var(--color-error)",
               padding: "10px",
-              borderRadius: "var(--radius-full)",
+              borderRadius: "var(--radius-control)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               flexShrink: 0,
             }}
           >
-            <AlertTriangle size={24} />
+            <AlertTriangle size={22} />
           </div>
         )}
         <div style={{ flex: 1 }}>
-          <p style={{ fontSize: "var(--font-size-sm)", color: "var(--color-text)", lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontSize: "14px", color: "var(--color-text)", lineHeight: "21px", margin: 0 }}>
             {message}
           </p>
         </div>
@@ -170,7 +173,7 @@ export function ConfirmModal({
           marginTop: "24px",
         }}
       >
-        <Button variant="outline" onClick={onClose} disabled={loading}>
+        <Button variant="secondary" onClick={onClose} disabled={loading}>
           {cancelText}
         </Button>
         <Button

@@ -224,7 +224,7 @@ export default function Settings() {
                 alignItems: "center",
                 flexWrap: "wrap",
                 gap: "12px",
-                border: "1px solid rgba(44, 87, 69, 0.15)",
+                border: "1px solid var(--color-border)",
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>

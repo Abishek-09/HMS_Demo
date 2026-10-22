@@ -219,7 +219,7 @@ export default function PatientForm() {
                     display: "inline-flex",
                     backgroundColor: "var(--color-surface)",
                     padding: "3px",
-                    borderRadius: "var(--radius-full)",
+                    borderRadius: "var(--radius-control)",
                     border: "1px solid var(--color-border)",
                   }}
                 >
@@ -231,12 +231,13 @@ export default function PatientForm() {
                     }}
                     style={{
                       padding: "4px 12px",
-                      borderRadius: "var(--radius-full)",
-                      fontSize: "var(--font-size-xs)",
+                      borderRadius: "calc(var(--radius-control) - 2px)",
+                      fontSize: "12px",
                       fontWeight: formData.isAgeMode ? "600" : "500",
                       backgroundColor: formData.isAgeMode ? "var(--color-primary)" : "transparent",
-                      color: formData.isAgeMode ? "#FFFFFF" : "var(--color-text-muted)",
+                      color: formData.isAgeMode ? "#FFFFFF" : "var(--color-text-secondary)",
                       transition: "all var(--transition-fast)",
+                      cursor: "pointer",
                     }}
                   >
                     Enter Age
@@ -249,12 +250,13 @@ export default function PatientForm() {
                     }}
                     style={{
                       padding: "4px 12px",
-                      borderRadius: "var(--radius-full)",
-                      fontSize: "var(--font-size-xs)",
+                      borderRadius: "calc(var(--radius-control) - 2px)",
+                      fontSize: "12px",
                       fontWeight: !formData.isAgeMode ? "600" : "500",
                       backgroundColor: !formData.isAgeMode ? "var(--color-primary)" : "transparent",
-                      color: !formData.isAgeMode ? "#FFFFFF" : "var(--color-text-muted)",
+                      color: !formData.isAgeMode ? "#FFFFFF" : "var(--color-text-secondary)",
                       transition: "all var(--transition-fast)",
+                      cursor: "pointer",
                     }}
                   >
                     Enter Date of Birth

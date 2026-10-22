@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Users,
   Stethoscope,
@@ -9,19 +9,16 @@ import {
   Eye,
   Printer,
   Calendar,
-  AlertCircle,
-  ArrowRight,
 } from "lucide-react";
 import AppShell from "../components/AppShell";
 import Card from "../components/Card";
-import Button from "../components/Button";
 import Chip from "../components/Chip";
 import EmptyState from "../components/EmptyState";
 import { getVisits } from "../services/visits";
 import { getPatients } from "../services/patients";
 import { getBills } from "../services/bills";
 import { getPrescriptions } from "../services/prescriptions";
-import { formatDate, formatTime, formatCurrency } from "../utils/format";
+import { formatTime, formatCurrency } from "../utils/format";
 import { useData } from "../context/DataContext";
 
 export default function Dashboard() {
@@ -63,7 +60,7 @@ export default function Dashboard() {
   const rxMap = useMemo(() => new Map(prescriptions.map((r) => [r.visitId, r])), [prescriptions]);
   const billMap = useMemo(() => new Map(bills.map((b) => [b.visitId, b])), [bills]);
 
-  // Determine today's date range
+  // Determine today's date string
   const todayDateString = new Date().toDateString();
 
   // Visits today
@@ -107,70 +104,62 @@ export default function Dashboard() {
   return (
     <AppShell title="Dashboard">
       <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-        {/* Top Greeting & Today Chip */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "16px",
-          }}
-        >
-          <div>
-            <h2
-              style={{
-                fontSize: "26px",
-                fontWeight: "700",
-                color: "var(--color-primary)",
-                margin: 0,
-              }}
-            >
-              {greeting}, {clinicConfig.doctor}
-            </h2>
-            <p
-              style={{
-                fontSize: "var(--font-size-sm)",
-                color: "var(--color-text-muted)",
-                margin: "4px 0 0",
-              }}
-            >
-              Welcome back to {clinicConfig.name}. Here is your clinical overview for today.
-            </p>
-          </div>
-
-          <Chip variant="accent" size="md">
-            <Calendar size={14} style={{ marginRight: "4px" }} />
-            <span>Today: {formatDate(new Date(), false)}</span>
-          </Chip>
+        {/* Welcome Section (Single source of date is now TopBar; no duplicate date chip here) */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+          <h2
+            className="text-section"
+            style={{
+              fontSize: "18px",
+              fontWeight: "600",
+              lineHeight: "26px",
+              color: "var(--color-text)",
+              margin: 0,
+            }}
+          >
+            {greeting}, {clinicConfig.doctor}
+          </h2>
+          <p
+            className="text-secondary"
+            style={{
+              fontSize: "13px",
+              fontWeight: "400",
+              lineHeight: "19px",
+              color: "var(--color-text-secondary)",
+              margin: 0,
+            }}
+          >
+            Clinical summary and appointments overview for {clinicConfig.name}
+          </p>
         </div>
 
-        {/* 4 Stat Cards */}
+        {/* KPI Row (4 columns desktop, fixed 116px height, 40x40 icon tile, tabular numbers) */}
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: "16px",
+            gap: "20px",
           }}
         >
-          {/* Stat 1: Patients Today */}
+          {/* KPI 1: Patients Today */}
           <div
             style={{
+              height: "116px",
               backgroundColor: "var(--color-surface)",
-              borderRadius: "var(--radius-lg)",
+              borderRadius: "var(--radius-card)",
               border: "1px solid var(--color-border)",
-              padding: "20px",
-              boxShadow: "var(--shadow-sm)",
+              padding: "20px 24px",
+              boxShadow: "var(--shadow-card)",
               display: "flex",
               alignItems: "center",
               gap: "16px",
+              boxSizing: "border-box",
             }}
           >
             <div
               style={{
-                width: "48px",
-                height: "48px",
-                borderRadius: "var(--radius-md)",
+                width: "40px",
+                height: "40px",
+                borderRadius: "var(--radius-control)",
                 backgroundColor: "var(--color-primary-tint)",
                 color: "var(--color-primary)",
                 display: "flex",
@@ -179,36 +168,55 @@ export default function Dashboard() {
                 flexShrink: 0,
               }}
             >
-              <Users size={24} />
+              <Users size={20} strokeWidth={2} />
             </div>
-            <div>
-              <span style={{ fontSize: "var(--font-size-xs)", color: "var(--color-text-muted)", fontWeight: "500" }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <span
+                className="text-secondary"
+                style={{
+                  fontSize: "13px",
+                  fontWeight: "500",
+                  lineHeight: "18px",
+                  color: "var(--color-text-secondary)",
+                }}
+              >
                 Patients Today
               </span>
-              <p style={{ fontSize: "24px", fontWeight: "700", color: "var(--color-primary)", margin: "2px 0 0" }}>
+              <span
+                className="text-kpi tabular-nums"
+                style={{
+                  fontSize: "28px",
+                  fontWeight: "700",
+                  lineHeight: "34px",
+                  color: "var(--color-text)",
+                  marginTop: "2px",
+                }}
+              >
                 {patientsTodayCount}
-              </p>
+              </span>
             </div>
           </div>
 
-          {/* Stat 2: Consultations Today */}
+          {/* KPI 2: Consultations Today */}
           <div
             style={{
+              height: "116px",
               backgroundColor: "var(--color-surface)",
-              borderRadius: "var(--radius-lg)",
+              borderRadius: "var(--radius-card)",
               border: "1px solid var(--color-border)",
-              padding: "20px",
-              boxShadow: "var(--shadow-sm)",
+              padding: "20px 24px",
+              boxShadow: "var(--shadow-card)",
               display: "flex",
               alignItems: "center",
               gap: "16px",
+              boxSizing: "border-box",
             }}
           >
             <div
               style={{
-                width: "48px",
-                height: "48px",
-                borderRadius: "var(--radius-md)",
+                width: "40px",
+                height: "40px",
+                borderRadius: "var(--radius-control)",
                 backgroundColor: "var(--color-primary-tint)",
                 color: "var(--color-primary)",
                 display: "flex",
@@ -217,76 +225,114 @@ export default function Dashboard() {
                 flexShrink: 0,
               }}
             >
-              <Stethoscope size={24} />
+              <Stethoscope size={20} strokeWidth={2} />
             </div>
-            <div>
-              <span style={{ fontSize: "var(--font-size-xs)", color: "var(--color-text-muted)", fontWeight: "500" }}>
-                Consultations Today
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <span
+                className="text-secondary"
+                style={{
+                  fontSize: "13px",
+                  fontWeight: "500",
+                  lineHeight: "18px",
+                  color: "var(--color-text-secondary)",
+                }}
+              >
+                Today's Consultations
               </span>
-              <p style={{ fontSize: "24px", fontWeight: "700", color: "var(--color-primary)", margin: "2px 0 0" }}>
+              <span
+                className="text-kpi tabular-nums"
+                style={{
+                  fontSize: "28px",
+                  fontWeight: "700",
+                  lineHeight: "34px",
+                  color: "var(--color-text)",
+                  marginTop: "2px",
+                }}
+              >
                 {visitsToday.length}
-              </p>
+              </span>
             </div>
           </div>
 
-          {/* Stat 3: Unpaid Bills */}
+          {/* KPI 3: Unpaid Invoices */}
           <div
+            onClick={() => navigate("/billing")}
             style={{
+              height: "116px",
               backgroundColor: "var(--color-surface)",
-              borderRadius: "var(--radius-lg)",
+              borderRadius: "var(--radius-card)",
               border: "1px solid var(--color-border)",
-              padding: "20px",
-              boxShadow: "var(--shadow-sm)",
+              padding: "20px 24px",
+              boxShadow: "var(--shadow-card)",
               display: "flex",
               alignItems: "center",
               gap: "16px",
               cursor: "pointer",
+              boxSizing: "border-box",
             }}
-            onClick={() => navigate("/billing")}
           >
             <div
               style={{
-                width: "48px",
-                height: "48px",
-                borderRadius: "var(--radius-md)",
-                backgroundColor: "var(--color-accent-tint)",
-                color: "var(--color-warning)",
+                width: "40px",
+                height: "40px",
+                borderRadius: "var(--radius-control)",
+                backgroundColor: "var(--color-accent)",
+                color: "var(--color-accent-text)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 flexShrink: 0,
               }}
             >
-              <Receipt size={24} />
+              <Receipt size={20} strokeWidth={2} />
             </div>
-            <div>
-              <span style={{ fontSize: "var(--font-size-xs)", color: "var(--color-text-muted)", fontWeight: "500" }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <span
+                className="text-secondary"
+                style={{
+                  fontSize: "13px",
+                  fontWeight: "500",
+                  lineHeight: "18px",
+                  color: "var(--color-text-secondary)",
+                }}
+              >
                 Unpaid Invoices
               </span>
-              <p style={{ fontSize: "24px", fontWeight: "700", color: "var(--color-warning)", margin: "2px 0 0" }}>
+              <span
+                className="text-kpi tabular-nums"
+                style={{
+                  fontSize: "28px",
+                  fontWeight: "700",
+                  lineHeight: "34px",
+                  color: unpaidBills.length > 0 ? "var(--color-text)" : "var(--color-text-secondary)",
+                  marginTop: "2px",
+                }}
+              >
                 {unpaidBills.length}
-              </p>
+              </span>
             </div>
           </div>
 
-          {/* Stat 4: Total Collected Today */}
+          {/* KPI 4: Collected Today */}
           <div
             style={{
+              height: "116px",
               backgroundColor: "var(--color-surface)",
-              borderRadius: "var(--radius-lg)",
+              borderRadius: "var(--radius-card)",
               border: "1px solid var(--color-border)",
-              padding: "20px",
-              boxShadow: "var(--shadow-sm)",
+              padding: "20px 24px",
+              boxShadow: "var(--shadow-card)",
               display: "flex",
               alignItems: "center",
               gap: "16px",
+              boxSizing: "border-box",
             }}
           >
             <div
               style={{
-                width: "48px",
-                height: "48px",
-                borderRadius: "var(--radius-md)",
+                width: "40px",
+                height: "40px",
+                borderRadius: "var(--radius-control)",
                 backgroundColor: "var(--color-primary-tint)",
                 color: "var(--color-primary)",
                 display: "flex",
@@ -295,83 +341,85 @@ export default function Dashboard() {
                 flexShrink: 0,
               }}
             >
-              <IndianRupee size={24} />
+              <IndianRupee size={20} strokeWidth={2} />
             </div>
-            <div>
-              <span style={{ fontSize: "var(--font-size-xs)", color: "var(--color-text-muted)", fontWeight: "500" }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <span
+                className="text-secondary"
+                style={{
+                  fontSize: "13px",
+                  fontWeight: "500",
+                  lineHeight: "18px",
+                  color: "var(--color-text-secondary)",
+                }}
+              >
                 Collected Today
               </span>
-              <p style={{ fontSize: "24px", fontWeight: "700", color: "var(--color-primary)", margin: "2px 0 0" }}>
+              <span
+                className="text-kpi tabular-nums"
+                style={{
+                  fontSize: "28px",
+                  fontWeight: "700",
+                  lineHeight: "34px",
+                  color: "var(--color-text)",
+                  marginTop: "2px",
+                }}
+              >
                 {formatCurrency(totalCollectedToday)}
-              </p>
+              </span>
             </div>
           </div>
         </div>
 
-        {/* 2 Columns: Today's Visits (left) + Quick Actions (right) */}
+        {/* Main 2/3 : 1/3 Split (20px gap, equalised top edges) */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 340px",
-            gap: "24px",
-            alignItems: "flex-start",
+            gridTemplateColumns: "minmax(0, 2fr) minmax(320px, 1fr)",
+            gap: "20px",
+            alignItems: "start",
           }}
+          className="dashboard-grid"
         >
-          {/* Today's Visits Table */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <div>
-                <h3
-                  style={{
-                    fontSize: "var(--font-size-base)",
-                    fontWeight: "700",
-                    color: "var(--color-primary)",
-                    margin: 0,
-                  }}
-                >
-                  Today's Consultations ({visitsToday.length})
-                </h3>
-                <p style={{ fontSize: "var(--font-size-xs)", color: "var(--color-text-muted)", margin: "2px 0 0" }}>
-                  Visits recorded for patient consultations today
-                </p>
-              </div>
-
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => navigate("/consultations")}
-              >
-                View All Visits
-              </Button>
-            </div>
-
-            {visitsToday.length === 0 ? (
-              <div
+          {/* Left Column: Today's Consultations Card */}
+          <Card
+            title="Today's Consultations"
+            action={
+              <Link
+                to="/consultations"
                 style={{
-                  backgroundColor: "var(--color-surface)",
-                  borderRadius: "var(--radius-lg)",
-                  border: "1px solid var(--color-border)",
+                  fontSize: "14px",
+                  fontWeight: "600",
+                  color: "var(--color-primary)",
+                  textDecoration: "none",
                 }}
+                onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
+                onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
               >
-                <EmptyState
-                  icon={Calendar}
-                  title="No visits recorded yet today"
-                  description="Start a walk-in consultation or register a new patient to begin today's clinic appointments."
-                  actionText="Start New Consultation"
-                  onAction={() => navigate("/consultations/new")}
-                  actionIcon={Stethoscope}
-                />
-              </div>
+                View all
+              </Link>
+            }
+            padding="24px"
+          >
+            {visitsToday.length === 0 ? (
+              <EmptyState
+                icon={Calendar}
+                title="No consultations yet today"
+                description="Start a walk-in consultation or register a new patient to begin today's clinic schedule."
+                actionText="Start New Consultation"
+                onAction={() => navigate("/consultations/new")}
+                actionIcon={Stethoscope}
+              />
             ) : (
-              <div className="table-container">
+              <div className="table-container" style={{ border: "1px solid var(--color-border)", borderRadius: "var(--radius-control)" }}>
                 <table className="data-table">
                   <thead>
                     <tr>
-                      <th>Patient</th>
-                      <th>Time</th>
-                      <th>Complaint</th>
-                      <th>Bill Status</th>
-                      <th style={{ textAlign: "right" }}>Actions</th>
+                      <th style={{ width: "25%" }}>Patient</th>
+                      <th style={{ width: "15%" }}>Time</th>
+                      <th style={{ width: "35%" }}>Complaint</th>
+                      <th style={{ width: "13%" }}>Status</th>
+                      <th style={{ width: "12%", textAlign: "right" }}>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -382,65 +430,148 @@ export default function Dashboard() {
 
                       return (
                         <tr key={v.id}>
+                          {/* Patient cell: name 14px/600, patient ID beneath 12-13px/400 secondary, 2px gap */}
                           <td>
-                            <div style={{ fontWeight: "600", color: "var(--color-primary)" }}>
-                              {patient ? patient.name : v.patientId}
-                            </div>
-                            <div style={{ fontSize: "11px", color: "var(--color-text-muted)" }}>
-                              {patient?.phone}
+                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                              <span
+                                style={{
+                                  fontSize: "14px",
+                                  fontWeight: "600",
+                                  lineHeight: "20px",
+                                  color: "var(--color-text)",
+                                }}
+                              >
+                                {patient ? patient.name : v.patientId}
+                              </span>
+                              <span
+                                className="tabular-nums"
+                                style={{
+                                  fontSize: "12px",
+                                  fontWeight: "400",
+                                  lineHeight: "17px",
+                                  color: "var(--color-text-secondary)",
+                                }}
+                              >
+                                {patient ? patient.patientId || patient.id : v.patientId}
+                              </span>
                             </div>
                           </td>
-                          <td style={{ whiteSpace: "nowrap" }}>{formatTime(v.dateTime)}</td>
-                          <td style={{ maxWidth: "200px" }}>
+
+                          {/* Time cell: tabular numerals */}
+                          <td>
                             <span
+                              className="tabular-nums"
                               style={{
-                                display: "-webkit-box",
-                                WebkitLineClamp: 1,
-                                WebkitBoxOrient: "vertical",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
+                                fontSize: "14px",
+                                fontWeight: "400",
+                                color: "var(--color-text)",
                               }}
-                              title={v.complaint}
                             >
-                              {v.complaint}
+                              {formatTime(v.dateTime)}
                             </span>
                           </td>
+
+                          {/* Complaint: single line, ellipsis truncation, title attribute with full text */}
+                          <td style={{ maxWidth: "220px" }}>
+                            <div
+                              style={{
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap",
+                                fontSize: "14px",
+                                color: "var(--color-text)",
+                              }}
+                              title={v.complaint || "Routine consultation"}
+                            >
+                              {v.complaint || "Routine consultation"}
+                            </div>
+                          </td>
+
+                          {/* Status: chip per §2 */}
                           <td>
                             {bill ? (
                               <Chip variant={bill.status === "Paid" ? "paid" : "unpaid"}>
                                 {bill.status}
                               </Chip>
                             ) : (
-                              "—"
+                              <Chip variant="unpaid">Pending</Chip>
                             )}
                           </td>
+
+                          {/* Actions: exactly TWO controls per row: View & Print (40x40px, 8px gap) */}
                           <td style={{ textAlign: "right", whiteSpace: "nowrap" }}>
-                            <div style={{ display: "inline-flex", gap: "6px" }}>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                icon={Eye}
+                            <div style={{ display: "inline-flex", gap: "8px", justifyContent: "flex-end" }}>
+                              <button
+                                type="button"
+                                className="btn-icon"
                                 onClick={() => navigate(`/consultations/${v.id}`)}
-                                title="View Visit"
-                              />
-                              {rx && (
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  icon={Printer}
-                                  onClick={() => navigate(`/print/prescription/${rx.id}`)}
-                                  title="Print Prescription"
-                                />
-                              )}
-                              {bill && (
-                                <Button
-                                  variant="secondary"
-                                  size="sm"
-                                  icon={Printer}
-                                  onClick={() => navigate(`/print/receipt/${bill.id}`)}
-                                  title="Print Receipt"
-                                />
-                              )}
+                                title="View consultation"
+                                aria-label="View consultation"
+                                style={{
+                                  width: "40px",
+                                  height: "40px",
+                                  borderRadius: "var(--radius-control)",
+                                  border: "1px solid var(--color-border)",
+                                  backgroundColor: "var(--color-surface)",
+                                  color: "var(--color-text-secondary)",
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  cursor: "pointer",
+                                  transition: "all var(--transition-fast)",
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.backgroundColor = "var(--color-primary-tint)";
+                                  e.currentTarget.style.color = "var(--color-primary)";
+                                  e.currentTarget.style.borderColor = "var(--color-primary)";
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.backgroundColor = "var(--color-surface)";
+                                  e.currentTarget.style.color = "var(--color-text-secondary)";
+                                  e.currentTarget.style.borderColor = "var(--color-border)";
+                                }}
+                              >
+                                <Eye size={18} strokeWidth={2} />
+                              </button>
+
+                              <button
+                                type="button"
+                                className="btn-icon"
+                                onClick={() => {
+                                  if (rx) {
+                                    navigate(`/print/prescription/${rx.id}`);
+                                  } else {
+                                    navigate(`/consultations/${v.id}`);
+                                  }
+                                }}
+                                title="Print prescription"
+                                aria-label="Print prescription"
+                                style={{
+                                  width: "40px",
+                                  height: "40px",
+                                  borderRadius: "var(--radius-control)",
+                                  border: "1px solid var(--color-border)",
+                                  backgroundColor: "var(--color-surface)",
+                                  color: "var(--color-text-secondary)",
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  cursor: "pointer",
+                                  transition: "all var(--transition-fast)",
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.backgroundColor = "var(--color-primary-tint)";
+                                  e.currentTarget.style.color = "var(--color-primary)";
+                                  e.currentTarget.style.borderColor = "var(--color-primary)";
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.backgroundColor = "var(--color-surface)";
+                                  e.currentTarget.style.color = "var(--color-text-secondary)";
+                                  e.currentTarget.style.borderColor = "var(--color-border)";
+                                }}
+                              >
+                                <Printer size={18} strokeWidth={2} />
+                              </button>
                             </div>
                           </td>
                         </tr>
@@ -450,62 +581,169 @@ export default function Dashboard() {
                 </table>
               </div>
             )}
-          </div>
+          </Card>
 
-          {/* Quick Actions Card */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            <Card
-              title="Quick Actions"
-              subtitle="Common clinic workflows"
-              padding="20px"
-            >
+          {/* Right Column: Quick Actions + Practice Information stacked */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+            {/* Quick Actions Card (§5: 3 full-width rows of 44px height, identical 20px icon slot) */}
+            <Card title="Quick Actions" padding="24px">
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                <Button
-                  variant="primary"
-                  size="md"
-                  icon={Stethoscope}
+                {/* 1. New Consultation (Primary Action: filled #245744, white label) */}
+                <button
+                  type="button"
                   onClick={() => navigate("/consultations/new")}
-                  style={{ width: "100%", justifyContent: "flex-start", padding: "12px 16px" }}
+                  style={{
+                    width: "100%",
+                    height: "44px",
+                    borderRadius: "var(--radius-control)",
+                    backgroundColor: "var(--color-primary)",
+                    color: "#FFFFFF",
+                    border: "1px solid var(--color-primary)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    padding: "0 16px",
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    lineHeight: "20px",
+                    cursor: "pointer",
+                    transition: "background-color var(--transition-fast)",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--color-primary-hover)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--color-primary)")}
                 >
-                  New Consultation
-                </Button>
+                  <Stethoscope size={20} strokeWidth={2} style={{ flexShrink: 0 }} />
+                  <span>New Consultation</span>
+                </button>
 
-                <Button
-                  variant="secondary"
-                  size="md"
-                  icon={UserPlus}
+                {/* 2. Register Patient (Secondary Action: white surface, 1px #E1E7E2 border, #23342D label, #245744 icon) */}
+                <button
+                  type="button"
                   onClick={() => navigate("/patients/new")}
-                  style={{ width: "100%", justifyContent: "flex-start", padding: "12px 16px" }}
+                  style={{
+                    width: "100%",
+                    height: "44px",
+                    borderRadius: "var(--radius-control)",
+                    backgroundColor: "var(--color-surface)",
+                    color: "var(--color-text)",
+                    border: "1px solid var(--color-border)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    padding: "0 16px",
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    lineHeight: "20px",
+                    cursor: "pointer",
+                    transition: "background-color var(--transition-fast)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "var(--color-primary-tint)";
+                    e.currentTarget.style.borderColor = "var(--color-primary)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "var(--color-surface)";
+                    e.currentTarget.style.borderColor = "var(--color-border)";
+                  }}
                 >
-                  Register Patient
-                </Button>
+                  <UserPlus size={20} strokeWidth={2} style={{ color: "var(--color-primary)", flexShrink: 0 }} />
+                  <span>Register Patient</span>
+                </button>
 
-                <Button
-                  variant="outline"
-                  size="md"
-                  icon={Receipt}
+                {/* 3. View Invoices & Billing (Secondary Action) */}
+                <button
+                  type="button"
                   onClick={() => navigate("/billing")}
-                  style={{ width: "100%", justifyContent: "flex-start", padding: "12px 16px" }}
+                  style={{
+                    width: "100%",
+                    height: "44px",
+                    borderRadius: "var(--radius-control)",
+                    backgroundColor: "var(--color-surface)",
+                    color: "var(--color-text)",
+                    border: "1px solid var(--color-border)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    padding: "0 16px",
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    lineHeight: "20px",
+                    cursor: "pointer",
+                    transition: "background-color var(--transition-fast)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "var(--color-primary-tint)";
+                    e.currentTarget.style.borderColor = "var(--color-primary)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "var(--color-surface)";
+                    e.currentTarget.style.borderColor = "var(--color-border)";
+                  }}
                 >
-                  View Invoices & Billing
-                </Button>
+                  <Receipt size={20} strokeWidth={2} style={{ color: "var(--color-primary)", flexShrink: 0 }} />
+                  <span>View Invoices & Billing</span>
+                </button>
               </div>
             </Card>
 
-            {/* Clinic Info Badge */}
-            <Card padding="16px">
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "var(--font-size-xs)" }}>
-                <span style={{ fontWeight: "700", color: "var(--color-primary)", textTransform: "uppercase" }}>
-                  Practice Timings
-                </span>
-                <p style={{ color: "var(--color-text)", margin: 0 }}>
-                  {clinicConfig.timings}
-                </p>
-                <div style={{ borderTop: "1px solid var(--color-border)", paddingTop: "8px", marginTop: "4px" }}>
-                  <span style={{ color: "var(--color-text-muted)" }}>Standard Consultation Fee:</span>
-                  <p style={{ fontWeight: "700", color: "var(--color-primary)", margin: "2px 0 0", fontSize: "var(--font-size-sm)" }}>
+            {/* Practice Information Card (§5: 16px vertical rhythm, label #53645B 13px/500 left, value #23342D 14px/600 right) */}
+            <Card title="Practice Information" padding="24px">
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span
+                    style={{
+                      fontSize: "13px",
+                      fontWeight: "500",
+                      lineHeight: "18px",
+                      color: "var(--color-text-secondary)",
+                    }}
+                  >
+                    Practice Timings
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      lineHeight: "20px",
+                      color: "var(--color-text)",
+                      textAlign: "right",
+                    }}
+                  >
+                    {clinicConfig.timings || "1:00 PM – 9:00 PM"}
+                  </span>
+                </div>
+
+                <div
+                  style={{
+                    borderTop: "1px solid var(--color-border)",
+                    paddingTop: "16px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "13px",
+                      fontWeight: "500",
+                      lineHeight: "18px",
+                      color: "var(--color-text-secondary)",
+                    }}
+                  >
+                    Consultation Fee
+                  </span>
+                  <span
+                    className="tabular-nums"
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      lineHeight: "20px",
+                      color: "var(--color-text)",
+                      textAlign: "right",
+                    }}
+                  >
                     {formatCurrency(clinicConfig.consultFee)}
-                  </p>
+                  </span>
                 </div>
               </div>
             </Card>

@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import { AlertCircle, ChevronDown } from "lucide-react";
 
 const Select = forwardRef(function Select(
   {
@@ -25,72 +26,96 @@ const Select = forwardRef(function Select(
       {label && (
         <label
           htmlFor={selectId}
+          className="text-label"
           style={{
-            fontSize: "var(--font-size-sm)",
+            fontSize: "13px",
             fontWeight: "500",
-            color: "var(--color-text)",
+            lineHeight: "18px",
+            color: "var(--color-text-secondary)",
             display: "flex",
             alignItems: "center",
             gap: "4px",
           }}
         >
           <span>{label}</span>
-          {required && <span style={{ color: "var(--color-danger)" }}>*</span>}
+          {required && <span style={{ color: "var(--color-error)" }}>*</span>}
         </label>
       )}
 
-      <select
-        ref={ref}
-        id={selectId}
-        value={value}
-        onChange={onChange}
-        disabled={disabled}
-        style={{
-          width: "100%",
-          height: "40px",
-          padding: "8px 12px",
-          borderRadius: "var(--radius-md)",
-          border: `1px solid ${error ? "var(--color-danger)" : "var(--color-border)"}`,
-          backgroundColor: disabled ? "var(--color-bg)" : "var(--color-surface)",
-          color: "var(--color-text)",
-          fontSize: "var(--font-size-sm)",
-          cursor: disabled ? "not-allowed" : "pointer",
-          transition: "border-color var(--transition-fast), box-shadow var(--transition-fast)",
-        }}
-        {...props}
-      >
-        {placeholder && (
-          <option value="" disabled>
-            {placeholder}
-          </option>
-        )}
-        {options.map((opt) => {
-          const val = typeof opt === "object" ? opt.value : opt;
-          const lbl = typeof opt === "object" ? opt.label : opt;
-          return (
-            <option key={val} value={val}>
-              {lbl}
+      <div style={{ position: "relative", width: "100%", display: "flex", alignItems: "center" }}>
+        <select
+          ref={ref}
+          id={selectId}
+          value={value}
+          onChange={onChange}
+          disabled={disabled}
+          className={`form-control ${error ? "is-invalid" : ""}`}
+          style={{
+            width: "100%",
+            height: "40px",
+            padding: "0 36px 0 12px",
+            borderRadius: "var(--radius-control)",
+            border: `1px solid ${error ? "var(--color-error)" : "var(--color-border)"}`,
+            backgroundColor: disabled ? "var(--color-bg)" : "var(--color-surface)",
+            color: disabled ? "var(--color-text-secondary)" : "var(--color-text)",
+            fontSize: "14px",
+            lineHeight: "21px",
+            cursor: disabled ? "not-allowed" : "pointer",
+            appearance: "none",
+            WebkitAppearance: "none",
+            transition: "border-color var(--transition-fast), box-shadow var(--transition-fast)",
+          }}
+          {...props}
+        >
+          {placeholder && (
+            <option value="" disabled>
+              {placeholder}
             </option>
-          );
-        })}
-      </select>
+          )}
+          {options.map((opt) => {
+            const val = typeof opt === "object" ? opt.value : opt;
+            const lbl = typeof opt === "object" ? opt.label : opt;
+            return (
+              <option key={val} value={val}>
+                {lbl}
+              </option>
+            );
+          })}
+        </select>
+        <ChevronDown
+          size={16}
+          style={{
+            position: "absolute",
+            right: "12px",
+            color: "var(--color-text-secondary)",
+            pointerEvents: "none",
+          }}
+        />
+      </div>
 
       {error ? (
-        <span
+        <div
+          className="form-error"
           style={{
-            fontSize: "var(--font-size-xs)",
-            color: "var(--color-danger)",
-            fontWeight: "500",
+            display: "flex",
+            alignItems: "center",
+            gap: "4px",
+            fontSize: "12px",
+            color: "var(--color-error)",
+            marginTop: "2px",
           }}
           role="alert"
         >
-          {error}
-        </span>
+          <AlertCircle size={13} style={{ flexShrink: 0 }} />
+          <span>{error}</span>
+        </div>
       ) : helperText ? (
         <span
+          className="text-meta-sm"
           style={{
-            fontSize: "var(--font-size-xs)",
-            color: "var(--color-text-muted)",
+            fontSize: "12px",
+            color: "var(--color-text-secondary)",
+            marginTop: "2px",
           }}
         >
           {helperText}

@@ -11,7 +11,7 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { useData } from "../context/DataContext";
 
-export default function Sidebar({ isCollapsed, onToggleCollapse }) {
+export default function Sidebar({ isCollapsed, onToggleCollapse, isMobileOpen, onCloseMobile }) {
   const { logout } = useAuth();
   const { clinicConfig } = useData();
 
@@ -24,191 +24,214 @@ export default function Sidebar({ isCollapsed, onToggleCollapse }) {
   ];
 
   return (
-    <aside
-      className="sidebar"
-      style={{
-        width: isCollapsed ? "var(--sidebar-collapsed)" : "var(--sidebar-width)",
-        backgroundColor: "var(--color-primary)",
-        color: "#FFFFFF",
-        display: "flex",
-        flexDirection: "column",
-        transition: "width var(--transition-normal)",
-        zIndex: 50,
-        flexShrink: 0,
-        position: "sticky",
-        top: 0,
-        height: "100vh",
-        borderRight: "1px solid rgba(255, 255, 255, 0.08)",
-      }}
-    >
-      {/* Brand Header */}
-      <div
-        style={{
-          height: "var(--topbar-height)",
-          display: "flex",
-          alignItems: "center",
-          gap: "12px",
-          padding: isCollapsed ? "0 16px" : "0 20px",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-        }}
-      >
-        {/* Inline SVG Monogram Logo */}
+    <>
+      {/* Mobile Backdrop */}
+      {isMobileOpen && (
         <div
+          onClick={onCloseMobile}
+          aria-hidden="true"
           style={{
-            width: "36px",
-            height: "36px",
-            borderRadius: "var(--radius-full)",
-            backgroundColor: "var(--color-primary-dark)",
-            border: "2px solid var(--color-accent)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexShrink: 0,
+            position: "fixed",
+            inset: 0,
+            backgroundColor: "rgba(35, 52, 45, 0.4)",
+            zIndex: 90,
+            transition: "opacity var(--transition-normal)",
           }}
-        >
-          <span
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "14px",
-              fontWeight: "700",
-              color: "var(--color-accent)",
-              letterSpacing: "-0.5px",
-            }}
-          >
-            {clinicConfig.logoText || "GF"}
-          </span>
-        </div>
+        />
+      )}
 
-        {!isCollapsed && (
-          <div style={{ overflow: "hidden" }}>
-            <h2
-              style={{
-                fontSize: "14px",
-                fontWeight: "700",
-                color: "#FFFFFF",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                letterSpacing: "-0.2px",
-              }}
-            >
-              {clinicConfig.name}
-            </h2>
-            <p
-              style={{
-                fontSize: "11px",
-                color: "var(--color-accent)",
-                whiteSpace: "nowrap",
-                margin: 0,
-              }}
-            >
-              {clinicConfig.doctor}
-            </p>
-          </div>
-        )}
-      </div>
-
-      {/* Navigation Links */}
-      <nav
+      <aside
+        className={`sidebar ${isMobileOpen ? "sidebar-mobile-open" : ""}`}
         style={{
-          flex: 1,
-          padding: "16px 12px",
+          width: isCollapsed ? "var(--sidebar-collapsed)" : "var(--sidebar-width)",
+          backgroundColor: "var(--color-primary)",
+          color: "#FFFFFF",
           display: "flex",
           flexDirection: "column",
-          gap: "6px",
+          transition: "width var(--transition-normal), transform var(--transition-normal)",
+          zIndex: 100,
+          flexShrink: 0,
+          position: "sticky",
+          top: 0,
+          height: "100vh",
+          borderRight: "1px solid rgba(255, 255, 255, 0.08)",
         }}
       >
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.to === "/"}
-              style={({ isActive }) => ({
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                padding: isCollapsed ? "10px 0" : "10px 14px",
-                justifyContent: isCollapsed ? "center" : "flex-start",
-                borderRadius: "var(--radius-full)",
-                textDecoration: "none",
-                fontSize: "var(--font-size-sm)",
-                fontWeight: isActive ? "600" : "500",
-                // Active nav item = #EBE3A7 pill with #2C5745 text
-                backgroundColor: isActive ? "var(--color-accent)" : "transparent",
-                color: isActive ? "var(--color-primary)" : "rgba(255, 255, 255, 0.85)",
-                transition: "all var(--transition-fast)",
-              })}
-              title={isCollapsed ? item.label : undefined}
-            >
-              <Icon size={18} strokeWidth={2} />
-              {!isCollapsed && <span>{item.label}</span>}
-            </NavLink>
-          );
-        })}
-      </nav>
-
-      {/* Bottom Profile / Quick Info */}
-      <div
-        style={{
-          padding: isCollapsed ? "16px 8px" : "16px",
-          borderTop: "1px solid rgba(255, 255, 255, 0.1)",
-          backgroundColor: "var(--color-primary-dark)",
-          display: "flex",
-          flexDirection: isCollapsed ? "column" : "row",
-          alignItems: "center",
-          justifyContent: isCollapsed ? "center" : "space-between",
-          gap: "8px",
-        }}
-      >
-        {!isCollapsed && (
-          <div style={{ overflow: "hidden" }}>
-            <p
-              style={{
-                fontSize: "12px",
-                fontWeight: "600",
-                color: "#FFFFFF",
-                margin: 0,
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-            >
-              {clinicConfig.doctor}
-            </p>
-            <p
-              style={{
-                fontSize: "10px",
-                color: "rgba(255, 255, 255, 0.65)",
-                margin: 0,
-              }}
-            >
-              {clinicConfig.designation || clinicConfig.quals}
-            </p>
-          </div>
-        )}
-
-        <button
-          type="button"
-          onClick={logout}
-          title="Sign out"
-          aria-label="Sign out"
+        {/* Brand Header */}
+        <div
           style={{
-            color: "rgba(255, 255, 255, 0.75)",
-            padding: "8px",
-            borderRadius: "var(--radius-md)",
+            minHeight: "var(--topbar-height)",
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
-            transition: "all var(--transition-fast)",
+            gap: "12px",
+            padding: isCollapsed ? "0 16px" : "16px 20px",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.12)",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-accent)")}
-          onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255, 255, 255, 0.75)")}
         >
-          <LogOut size={18} />
-        </button>
-      </div>
-    </aside>
+          {/* Clinic Monogram / Logo */}
+          <div
+            style={{
+              width: "36px",
+              height: "36px",
+              borderRadius: "var(--radius-control)",
+              backgroundColor: "rgba(255, 255, 255, 0.12)",
+              border: "1.5px solid var(--color-accent)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "14px",
+                fontWeight: "700",
+                color: "var(--color-accent)",
+                letterSpacing: "-0.5px",
+              }}
+            >
+              {clinicConfig.logoText || "SC"}
+            </span>
+          </div>
+
+          {!isCollapsed && (
+            <div style={{ flex: 1, minWidth: 0 }}>
+              {/* Clinic name must WRAP to two lines rather than truncate with an ellipsis */}
+              <h2
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "700",
+                  lineHeight: "18px",
+                  color: "#FFFFFF",
+                  margin: 0,
+                  whiteSpace: "normal",
+                  wordBreak: "break-word",
+                  letterSpacing: "-0.2px",
+                }}
+              >
+                {clinicConfig.name}
+              </h2>
+              <p
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "400",
+                  lineHeight: "16px",
+                  color: "var(--color-accent)",
+                  margin: "2px 0 0",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {clinicConfig.doctor}
+                {clinicConfig.quals ? ` • ${clinicConfig.quals}` : ""}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Navigation Links */}
+        <nav
+          style={{
+            flex: 1,
+            padding: "16px 12px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "6px",
+          }}
+          aria-label="Sidebar Navigation"
+        >
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.to === "/"}
+                onClick={() => {
+                  if (onCloseMobile) onCloseMobile();
+                }}
+                className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+                style={({ isActive }) => ({
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  height: "44px",
+                  padding: "0 12px",
+                  justifyContent: isCollapsed ? "center" : "flex-start",
+                  borderRadius: "8px", /* radius 8px per §4 */
+                  textDecoration: "none",
+                  fontSize: "15px",
+                  fontWeight: isActive ? "600" : "500",
+                  lineHeight: "22px",
+                  backgroundColor: isActive ? "var(--color-accent)" : "transparent",
+                  color: isActive ? "var(--color-primary)" : "#FFFFFF",
+                  transition: "background-color var(--transition-fast), color var(--transition-fast)",
+                })}
+                onMouseEnter={(e) => {
+                  if (!e.currentTarget.classList.contains("active")) {
+                    e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!e.currentTarget.classList.contains("active")) {
+                    e.currentTarget.style.backgroundColor = "transparent";
+                  }
+                }}
+                title={isCollapsed ? item.label : undefined}
+                aria-label={item.label}
+              >
+                <Icon size={20} strokeWidth={2} style={{ flexShrink: 0 }} />
+                {!isCollapsed && <span style={{ whiteSpace: "nowrap" }}>{item.label}</span>}
+              </NavLink>
+            );
+          })}
+        </nav>
+
+        {/* Logout Control pinned at bottom */}
+        <div
+          style={{
+            padding: "12px",
+            borderTop: "1px solid rgba(255, 255, 255, 0.12)",
+          }}
+        >
+          <button
+            type="button"
+            onClick={logout}
+            title={isCollapsed ? "Logout" : undefined}
+            aria-label="Logout"
+            style={{
+              width: "100%",
+              height: "44px",
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              padding: "0 12px",
+              justifyContent: isCollapsed ? "center" : "flex-start",
+              borderRadius: "8px",
+              backgroundColor: "transparent",
+              color: "rgba(255, 255, 255, 0.85)",
+              fontSize: "15px",
+              fontWeight: "500",
+              lineHeight: "22px",
+              cursor: "pointer",
+              transition: "background-color var(--transition-fast), color var(--transition-fast)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
+              e.currentTarget.style.color = "#FFFFFF";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent";
+              e.currentTarget.style.color = "rgba(255, 255, 255, 0.85)";
+            }}
+          >
+            <LogOut size={20} strokeWidth={2} style={{ flexShrink: 0 }} />
+            {!isCollapsed && <span style={{ whiteSpace: "nowrap" }}>Logout</span>}
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }

@@ -7,22 +7,25 @@ export default function Card({
   children,
   className = "",
   style = {},
-  padding = "var(--space-6)",
+  compact = false,
+  padding,
   ...props
 }) {
+  const cardPadding = padding || (compact ? "16px" : "24px");
+
   return (
     <div
       style={{
         backgroundColor: "var(--color-surface)",
         border: "1px solid var(--color-border)",
-        borderRadius: "var(--radius-lg)",
-        padding: padding,
-        boxShadow: "var(--shadow-sm)",
+        borderRadius: "var(--radius-card)",
+        padding: cardPadding,
+        boxShadow: "var(--shadow-card)",
         display: "flex",
         flexDirection: "column",
         ...style,
       }}
-      className={`card ${className}`}
+      className={`card ${compact ? "card-compact" : ""} ${className}`}
       {...props}
     >
       {(title || action) && (
@@ -30,20 +33,23 @@ export default function Card({
           style={{
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "flex-start",
-            marginBottom: "var(--space-4)",
-            borderBottom: subtitle || action ? "1px solid var(--color-border)" : "none",
-            paddingBottom: subtitle || action ? "var(--space-3)" : 0,
+            alignItems: "center",
+            marginBottom: "16px",
+            borderBottom: subtitle ? "1px solid var(--color-border)" : "none",
+            paddingBottom: subtitle ? "12px" : 0,
             gap: "12px",
           }}
         >
           <div>
             {title && (
               <h3
+                className="text-card-title"
                 style={{
-                  fontSize: "var(--font-size-base)",
+                  fontSize: "15px",
                   fontWeight: "600",
-                  color: "var(--color-primary)",
+                  lineHeight: "22px",
+                  color: "var(--color-text)",
+                  margin: 0,
                 }}
               >
                 {title}
@@ -51,9 +57,12 @@ export default function Card({
             )}
             {subtitle && (
               <p
+                className="text-secondary"
                 style={{
-                  fontSize: "var(--font-size-xs)",
-                  color: "var(--color-text-muted)",
+                  fontSize: "13px",
+                  fontWeight: "400",
+                  lineHeight: "19px",
+                  color: "var(--color-text-secondary)",
                   marginTop: "2px",
                   marginBottom: 0,
                 }}
@@ -65,7 +74,7 @@ export default function Card({
           {action && <div>{action}</div>}
         </div>
       )}
-      {children}
+      <div style={{ flex: 1 }}>{children}</div>
     </div>
   );
 }
