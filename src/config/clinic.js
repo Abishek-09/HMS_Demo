@@ -1,18 +1,19 @@
 // Clinic Identity Configuration
-// Edit this file to customize the clinic's branding and doctor details
+// Updated to Santosh Child Care per practitioner card
 
 export const DEFAULT_CLINIC_CONFIG = {
-  name: "Greenleaf Family Clinic",
-  doctor: "Dr. A. Sharma",
-  quals: "MBBS, MD (General Medicine)",
+  name: "Santosh Child Care",
+  doctor: "Dr. B. Sivakumar",
+  quals: "M.B.B.S., M.D. (PEDS)",
+  designation: "Consultant Pediatrician",
   regNo: "Reg. No. 12345",
-  address: "12 Park Road, Sector 4, Springfield – 560001",
-  phone: "+91 98765 43210",
-  email: "care@greenleafclinic.test",
-  timings: "Mon–Sat, 9:00 AM – 1:00 PM, 5:00 PM – 8:00 PM",
+  address: "7, College Road, Ambai",
+  phone: "+91 83004 42584",
+  email: "care@santoshchildcare.test",
+  timings: "1:00 PM – 9:00 PM",
   consultFee: 500,
-  // SVG Monogram logo for Greenleaf Family ("GF")
-  logoText: "GF",
+  // SVG Monogram logo for Santosh Child Care ("SC")
+  logoText: "SC",
 };
 
 export const CLINIC_STORAGE_KEY = "clinic_settings";
@@ -21,7 +22,13 @@ export function getClinicConfig() {
   try {
     const stored = localStorage.getItem(CLINIC_STORAGE_KEY);
     if (stored) {
-      return { ...DEFAULT_CLINIC_CONFIG, ...JSON.parse(stored) };
+      const parsed = JSON.parse(stored);
+      // Automatically migrate from old template default if present
+      if (parsed.name === "Greenleaf Family Clinic" || parsed.doctor === "Dr. A. Sharma") {
+        localStorage.setItem(CLINIC_STORAGE_KEY, JSON.stringify(DEFAULT_CLINIC_CONFIG));
+        return DEFAULT_CLINIC_CONFIG;
+      }
+      return { ...DEFAULT_CLINIC_CONFIG, ...parsed };
     }
   } catch (err) {
     console.error("Error reading clinic config:", err);

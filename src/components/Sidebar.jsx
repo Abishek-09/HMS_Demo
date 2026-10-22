@@ -184,7 +184,7 @@ export default function Sidebar({ isCollapsed, onToggleCollapse }) {
                 margin: 0,
               }}
             >
-              {clinicConfig.regNo}
+              {clinicConfig.designation || clinicConfig.quals}
             </p>
           </div>
         )}

@@ -58,9 +58,9 @@ export default function PrintReceipt() {
         <div className="print-header-band">
           <div>
             <h1>{clinic.name}</h1>
-            <p className="clinic-sub">{clinic.timings}</p>
+            <p className="clinic-sub">Consulting Time: {clinic.timings}</p>
             <p style={{ margin: "4px 0 0", fontSize: "11px", opacity: 0.9 }}>
-              {clinic.address} • Phone: {clinic.phone}
+              {clinic.address} • Cell: {clinic.phone}
             </p>
           </div>
 
@@ -69,7 +69,9 @@ export default function PrintReceipt() {
               {clinic.doctor}
             </h2>
             <p style={{ margin: "2px 0 0", color: "#EBE3A7" }}>{clinic.quals}</p>
-            <p style={{ margin: "2px 0 0", opacity: 0.85 }}>{clinic.regNo}</p>
+            <p style={{ margin: "2px 0 0", color: "#FFFFFF", fontSize: "11px" }}>
+              {clinic.designation || "Consultant Pediatrician"}
+            </p>
           </div>
         </div>
 
@@ -211,7 +213,7 @@ export default function PrintReceipt() {
               {clinic.doctor}
             </p>
             <p style={{ fontSize: "11px", color: "#555", margin: "2px 0 0" }}>
-              {clinic.quals} • {clinic.regNo}
+              {clinic.quals} • {clinic.designation || "Consultant Pediatrician"}
             </p>
             <p style={{ fontSize: "10px", color: "#888", margin: "2px 0 0" }}>
               Authorized Signatory
@@ -230,7 +232,7 @@ export default function PrintReceipt() {
             color: "#666",
           }}
         >
-          Thank you for choosing {clinic.name}. Wish you good health!
+          Thank you for visiting {clinic.name}. Wish your child vibrant health!
           <br />
           For any questions regarding this receipt, please contact: {clinic.phone}
         </div>

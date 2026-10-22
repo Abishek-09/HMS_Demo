@@ -205,15 +205,15 @@ export default function Login() {
               {clinicConfig.doctor}
             </p>
             <p style={{ fontSize: "12px", color: "var(--color-accent)", margin: "2px 0 0" }}>
-              {clinicConfig.quals} • {clinicConfig.regNo}
+              {clinicConfig.quals} • {clinicConfig.designation || "Consultant Pediatrician"}
             </p>
           </div>
         </div>
 
         {/* Footer */}
         <div style={{ position: "relative", zIndex: 2 }}>
-          <p style={{ fontSize: "12px", color: "rgba(255, 255, 255, 0.6)", margin: 0 }}>
-            {clinicConfig.address}
+          <p style={{ fontSize: "12px", color: "rgba(255, 255, 255, 0.7)", margin: 0 }}>
+            {clinicConfig.address} • Consulting Time: {clinicConfig.timings} • Cell: {clinicConfig.phone}
           </p>
         </div>
       </div>

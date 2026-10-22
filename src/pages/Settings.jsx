@@ -17,13 +17,14 @@ export default function Settings() {
     name: clinicConfig.name || "",
     doctor: clinicConfig.doctor || "",
     quals: clinicConfig.quals || "",
+    designation: clinicConfig.designation || "",
     regNo: clinicConfig.regNo || "",
     address: clinicConfig.address || "",
     phone: clinicConfig.phone || "",
     email: clinicConfig.email || "",
     timings: clinicConfig.timings || "",
     consultFee: clinicConfig.consultFee || 500,
-    logoText: clinicConfig.logoText || "GF",
+    logoText: clinicConfig.logoText || "SC",
   });
 
   const [lastSaved, setLastSaved] = useState(getLastSavedTimestamp());
@@ -48,7 +49,7 @@ export default function Settings() {
       const a = document.createElement("a");
       const dateTag = new Date().toISOString().slice(0, 10);
       a.href = url;
-      a.download = `greenleaf_clinic_backup_${dateTag}.json`;
+      a.download = `santosh_child_care_backup_${dateTag}.json`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -119,17 +120,32 @@ export default function Settings() {
               <Input
                 label="Medical Qualifications"
                 required
-                placeholder="e.g. MBBS, MD (General Medicine)"
+                placeholder="e.g. M.B.B.S., M.D. (PEDS)"
                 value={formData.quals}
                 onChange={(e) => setFormData({ ...formData, quals: e.target.value })}
               />
 
               <Input
+                label="Designation / Specialization"
+                placeholder="e.g. Consultant Pediatrician"
+                value={formData.designation}
+                onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
+              />
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+              <Input
                 label="Medical Council Registration No."
-                required
                 placeholder="e.g. Reg. No. 12345"
                 value={formData.regNo}
                 onChange={(e) => setFormData({ ...formData, regNo: e.target.value })}
+              />
+
+              <Input
+                label="Logo Monogram (2–3 Letters)"
+                placeholder="e.g. SC"
+                value={formData.logoText}
+                onChange={(e) => setFormData({ ...formData, logoText: e.target.value })}
               />
             </div>
 

@@ -64,9 +64,9 @@ export default function PrintPrescription() {
         <div className="print-header-band">
           <div>
             <h1>{clinic.name}</h1>
-            <p className="clinic-sub">{clinic.timings}</p>
+            <p className="clinic-sub">Consulting Time: {clinic.timings}</p>
             <p style={{ margin: "4px 0 0", fontSize: "11px", opacity: 0.9 }}>
-              {clinic.address} • Phone: {clinic.phone}
+              {clinic.address} • Cell: {clinic.phone}
             </p>
           </div>
 
@@ -75,7 +75,9 @@ export default function PrintPrescription() {
               {clinic.doctor}
             </h2>
             <p style={{ margin: "2px 0 0", color: "#EBE3A7" }}>{clinic.quals}</p>
-            <p style={{ margin: "2px 0 0", opacity: 0.85 }}>{clinic.regNo}</p>
+            <p style={{ margin: "2px 0 0", color: "#FFFFFF", fontSize: "11px" }}>
+              {clinic.designation || "Consultant Pediatrician"}
+            </p>
           </div>
         </div>
 
@@ -206,7 +208,7 @@ export default function PrintPrescription() {
               {clinic.doctor}
             </p>
             <p style={{ fontSize: "11px", color: "#555", margin: "2px 0 0" }}>
-              {clinic.quals} • {clinic.regNo}
+              {clinic.quals} • {clinic.designation || "Consultant Pediatrician"}
             </p>
             <p style={{ fontSize: "10px", color: "#888", margin: "2px 0 0" }}>
               Authorized Signature
@@ -225,7 +227,7 @@ export default function PrintPrescription() {
             color: "#666",
           }}
         >
-          {clinic.name} • {clinic.address} • For appointments / queries: {clinic.phone}
+          {clinic.name} • {clinic.address} • Consulting Time: {clinic.timings} • Cell: {clinic.phone}
         </div>
       </div>
     </PrintLayout>

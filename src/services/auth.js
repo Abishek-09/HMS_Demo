@@ -11,7 +11,7 @@ export async function login(email, password) {
   if (email.trim().toLowerCase() === DEMO_EMAIL && password === DEMO_PASS) {
     const sessionData = {
       doctorEmail: DEMO_EMAIL,
-      doctorName: "Dr. A. Sharma",
+      doctorName: "Dr. B. Sivakumar",
       loggedInAt: new Date().toISOString(),
     };
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));

@@ -32,7 +32,7 @@ All authentication is simulated on the client side. Active sessions are stored i
 |---|---|
 | **Doctor Email** | `doctor@clinic.test` |
 | **Password** | `demo1234` |
-| **Doctor Name** | Dr. A. Sharma |
+| **Doctor Name** | Dr. B. Sivakumar |
 
 > **Tip:** On the Login page, click **"Auto-fill"** to automatically populate these credentials.
 
@@ -76,16 +76,17 @@ All clinic details are defined in one configuration file:
 
 ```javascript
 export const DEFAULT_CLINIC_CONFIG = {
-  name: "Greenleaf Family Clinic",
-  doctor: "Dr. A. Sharma",
-  quals: "MBBS, MD (General Medicine)",
+  name: "Santosh Child Care",
+  doctor: "Dr. B. Sivakumar",
+  quals: "M.B.B.S., M.D. (PEDS)",
+  designation: "Consultant Pediatrician",
   regNo: "Reg. No. 12345",
-  address: "12 Park Road, Sector 4, Springfield – 560001",
-  phone: "+91 98765 43210",
-  email: "care@greenleafclinic.test",
-  timings: "Mon–Sat, 9:00 AM – 1:00 PM, 5:00 PM – 8:00 PM",
+  address: "7, College Road, Ambai",
+  phone: "+91 83004 42584",
+  email: "care@santoshchildcare.test",
+  timings: "1:00 PM – 9:00 PM",
   consultFee: 500,
-  logoText: "GF",
+  logoText: "SC",
 };
 ```
 Alternatively, log in as the doctor and navigate to the **Settings** (`/settings`) screen to update these details directly in the UI. Changes are persisted and immediately update all headers, print templates, and consultation fee defaults.
