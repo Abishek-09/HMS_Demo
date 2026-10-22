@@ -137,7 +137,7 @@ export default function TopBar({ title, onToggleSidebar }) {
               DR
             </div>
 
-            <div style={{ textAlign: "left", lineHeight: "1.2" }}>
+            <div className="topbar-doctor-text" style={{ textAlign: "left", lineHeight: "1.2" }}>
               <div
                 style={{
                   fontSize: "14px",

@@ -176,6 +176,7 @@ export default function Billing() {
       <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
         {/* Filter Tabs & Search Bar */}
         <div
+          className="toolbar-responsive"
           style={{
             display: "flex",
             justifyContent: "space-between",

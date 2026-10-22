@@ -252,6 +252,7 @@ export default function Consultations() {
     <AppShell title="Consultations & Visits">
       <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
         <div
+          className="toolbar-responsive"
           style={{
             display: "flex",
             justifyContent: "space-between",

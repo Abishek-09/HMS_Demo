@@ -34,6 +34,7 @@ export default function Card({
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            flexWrap: "wrap",
             marginBottom: "16px",
             borderBottom: subtitle ? "1px solid var(--color-border)" : "none",
             paddingBottom: subtitle ? "12px" : 0,

@@ -45,28 +45,11 @@ export default function Login() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        backgroundColor: "var(--color-bg)",
-      }}
-    >
-      {/* Left Brand Panel (Flat #245744 per spec) */}
-      <div
-        style={{
-          flex: "1 1 45%",
-          backgroundColor: "var(--color-primary)",
-          color: "#FFFFFF",
-          padding: "48px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          position: "relative",
-        }}
-      >
+    <div className="login-container">
+      {/* Left Brand Panel (Flat #245744 per spec; collapses into compact header banner on mobile/tablet) */}
+      <div className="login-brand-panel">
         {/* Brand Header */}
-        <div>
+        <div className="login-brand-header">
           <div
             style={{
               display: "inline-flex",
@@ -85,6 +68,7 @@ export default function Login() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                flexShrink: 0,
               }}
             >
               <span
@@ -116,14 +100,14 @@ export default function Login() {
                   margin: "2px 0 0",
                 }}
               >
-                Clinic Management System
+                Clinic Management System • {clinicConfig.doctor}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Center Doctor / Clinic Info */}
-        <div style={{ maxWidth: "440px" }}>
+        {/* Center Doctor / Clinic Info (Visible on Desktop, hidden on mobile/tablet to keep form visible above fold) */}
+        <div className="login-brand-body" style={{ maxWidth: "440px" }}>
           <div
             style={{
               display: "inline-flex",
@@ -182,8 +166,8 @@ export default function Login() {
           </div>
         </div>
 
-        {/* Footer */}
-        <div>
+        {/* Footer (Desktop only) */}
+        <div className="login-brand-footer">
           <p style={{ fontSize: "12px", color: "rgba(255, 255, 255, 0.75)", margin: 0, lineHeight: "18px" }}>
             {clinicConfig.address} • Consulting Time: {clinicConfig.timings} • Cell: {clinicConfig.phone}
           </p>
@@ -191,26 +175,8 @@ export default function Login() {
       </div>
 
       {/* Right Login Card Panel */}
-      <div
-        style={{
-          flex: "1 1 55%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "48px 24px",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            maxWidth: "420px",
-            backgroundColor: "var(--color-surface)",
-            padding: "36px",
-            borderRadius: "var(--radius-card)",
-            border: "1px solid var(--color-border)",
-            boxShadow: "var(--shadow-card)",
-          }}
-        >
+      <div className="login-form-panel">
+        <div className="login-card">
           <div style={{ marginBottom: "24px" }}>
             <h2
               className="text-page-title"

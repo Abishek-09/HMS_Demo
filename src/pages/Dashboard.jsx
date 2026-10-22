@@ -14,6 +14,7 @@ import AppShell from "../components/AppShell";
 import Card from "../components/Card";
 import Chip from "../components/Chip";
 import EmptyState from "../components/EmptyState";
+import DailyReportChart from "../components/DailyReportChart";
 import { getVisits } from "../services/visits";
 import { getPatients } from "../services/patients";
 import { getBills } from "../services/bills";
@@ -134,6 +135,7 @@ export default function Dashboard() {
 
         {/* KPI Row (4 columns desktop, fixed 116px height, 40x40 icon tile, tabular numbers) */}
         <div
+          className="dashboard-kpi-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
@@ -142,6 +144,7 @@ export default function Dashboard() {
         >
           {/* KPI 1: Patients Today */}
           <div
+            className="dashboard-kpi-card"
             style={{
               height: "116px",
               backgroundColor: "var(--color-surface)",
@@ -199,6 +202,7 @@ export default function Dashboard() {
 
           {/* KPI 2: Consultations Today */}
           <div
+            className="dashboard-kpi-card"
             style={{
               height: "116px",
               backgroundColor: "var(--color-surface)",
@@ -256,6 +260,7 @@ export default function Dashboard() {
 
           {/* KPI 3: Unpaid Invoices */}
           <div
+            className="dashboard-kpi-card"
             onClick={() => navigate("/billing")}
             style={{
               height: "116px",
@@ -315,6 +320,7 @@ export default function Dashboard() {
 
           {/* KPI 4: Collected Today */}
           <div
+            className="dashboard-kpi-card"
             style={{
               height: "116px",
               backgroundColor: "var(--color-surface)",
@@ -381,9 +387,11 @@ export default function Dashboard() {
           }}
           className="dashboard-grid"
         >
-          {/* Left Column: Today's Consultations Card */}
-          <Card
-            title="Today's Consultations"
+          {/* Left Column: Today's Consultations + Daily Activity & Clinical Report */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px", minWidth: 0 }}>
+            {/* Today's Consultations Card */}
+            <Card
+              title="Today's Consultations"
             action={
               <Link
                 to="/consultations"
@@ -581,7 +589,11 @@ export default function Dashboard() {
                 </table>
               </div>
             )}
-          </Card>
+            </Card>
+
+            {/* Daily Report in Line Chart with New Field Cards */}
+            <DailyReportChart visits={visits} bills={bills} />
+          </div>
 
           {/* Right Column: Quick Actions + Practice Information stacked */}
           <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>

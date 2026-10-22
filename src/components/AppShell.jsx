@@ -44,7 +44,6 @@ export default function AppShell({ title, children }) {
         display: "flex",
         minHeight: "100vh",
         backgroundColor: "var(--color-bg)",
-        overflowX: "hidden",
       }}
     >
       <Sidebar
@@ -60,6 +59,8 @@ export default function AppShell({ title, children }) {
           display: "flex",
           flexDirection: "column",
           minWidth: 0,
+          marginLeft: windowWidth < 768 ? 0 : (isCollapsed ? "var(--sidebar-collapsed)" : "var(--sidebar-width)"),
+          transition: "margin-left var(--transition-normal)",
         }}
       >
         <TopBar

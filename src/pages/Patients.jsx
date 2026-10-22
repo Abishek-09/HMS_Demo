@@ -206,6 +206,7 @@ export default function Patients() {
       <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
         {/* Actions Bar */}
         <div
+          className="toolbar-responsive"
           style={{
             display: "flex",
             justifyContent: "space-between",

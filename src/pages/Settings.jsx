@@ -100,7 +100,7 @@ export default function Settings() {
           subtitle="These details appear on your printed prescriptions, receipts, and headers."
         >
           <form onSubmit={handleSaveClinic} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+            <div className="form-grid-2">
               <Input
                 label="Clinic Name"
                 required
@@ -116,7 +116,7 @@ export default function Settings() {
               />
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+            <div className="form-grid-2">
               <Input
                 label="Medical Qualifications"
                 required
@@ -133,7 +133,7 @@ export default function Settings() {
               />
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+            <div className="form-grid-2">
               <Input
                 label="Medical Council Registration No."
                 placeholder="e.g. Reg. No. 12345"
@@ -157,7 +157,7 @@ export default function Settings() {
               onChange={(e) => setFormData({ ...formData, address: e.target.value })}
             />
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+            <div className="form-grid-2">
               <Input
                 label="Clinic Phone Number"
                 required
@@ -174,7 +174,7 @@ export default function Settings() {
               />
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "16px" }}>
+            <div className="form-grid-2">
               <Input
                 label="Clinic Timings / Operating Hours"
                 required

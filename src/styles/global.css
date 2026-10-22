@@ -11,6 +11,9 @@
 
 html, body {
   height: 100%;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -26,6 +29,9 @@ body {
 
 #root {
   min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -604,14 +610,96 @@ button {
 }
 
 /* =====================================================================
-   RESPONSIVE MEDIA QUERIES (§8)
+   RESPONSIVE UTILITIES & MEDIA QUERIES
+   Full responsiveness across Desktop, Tablet, and Mobile
    ===================================================================== */
+
+/* 2-Column Responsive Form Grids */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Responsive Action & Search Toolbars */
+.toolbar-responsive {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Login Page Base & Responsive Layout */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  background-color: var(--color-bg);
+  width: 100%;
+}
+
+.login-brand-panel {
+  flex: 1 1 45%;
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  min-width: 0;
+}
+
+.login-form-panel {
+  flex: 1 1 55%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  min-width: 0;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background-color: var(--color-surface);
+  padding: 36px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+}
+
+/* Tablet Screens (max-width: 1023px) */
 @media (max-width: 1023px) {
   .dashboard-grid {
     grid-template-columns: 1fr !important;
   }
+
+  .login-container {
+    flex-direction: column !important;
+  }
+
+  .login-brand-panel {
+    flex: 0 0 auto !important;
+    padding: 32px 24px !important;
+  }
+
+  .login-brand-body {
+    display: none !important;
+  }
+
+  .login-brand-footer {
+    display: none !important;
+  }
+
+  .login-form-panel {
+    flex: 1 1 auto !important;
+    padding: 32px 20px !important;
+  }
 }
 
+/* Mobile Screens (max-width: 767px) */
 @media (max-width: 767px) {
   .sidebar {
     position: fixed !important;
@@ -622,16 +710,103 @@ button {
     transform: translateX(-100%);
     box-shadow: 4px 0 24px rgba(35, 52, 45, 0.2);
   }
+
   .sidebar.sidebar-mobile-open {
     transform: translateX(0) !important;
   }
+
+  .login-brand-panel {
+    padding: 20px 16px !important;
+  }
+
+  .login-brand-header {
+    margin-bottom: 0 !important;
+  }
+
+  .login-form-panel {
+    padding: 20px 14px !important;
+  }
+
+  .login-card {
+    padding: 24px 18px !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+  }
+
+  .toolbar-responsive {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  .toolbar-responsive .search-bar {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .toolbar-responsive button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
 }
 
+/* Small Mobile & Phablet Screens (max-width: 640px) */
 @media (max-width: 640px) {
   .topbar {
-    padding: 0 16px !important;
+    padding: 0 14px !important;
+    height: 60px !important;
   }
+
   .topbar .date-chip {
     display: none !important;
+  }
+
+  .topbar-doctor-text {
+    display: none !important;
+  }
+
+  .topbar .text-page-title {
+    font-size: 18px !important;
+    line-height: 24px !important;
+    max-width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .form-grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 10px 12px !important;
+    font-size: 13px !important;
+  }
+}
+
+/* Compact Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+  .topbar .text-page-title {
+    max-width: 125px;
+    font-size: 16px !important;
+  }
+
+  .dashboard-kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .dashboard-kpi-card {
+    height: auto !important;
+    min-height: 90px !important;
+    padding: 12px 10px !important;
+    gap: 8px !important;
+  }
+
+  .dashboard-kpi-card .text-kpi {
+    font-size: 20px !important;
+    line-height: 26px !important;
   }
 }

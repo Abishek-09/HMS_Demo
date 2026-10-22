@@ -51,8 +51,10 @@ export default function Sidebar({ isCollapsed, onToggleCollapse, isMobileOpen, o
           transition: "width var(--transition-normal), transform var(--transition-normal)",
           zIndex: 100,
           flexShrink: 0,
-          position: "sticky",
+          position: "fixed",
           top: 0,
+          left: 0,
+          bottom: 0,
           height: "100vh",
           borderRight: "1px solid rgba(255, 255, 255, 0.08)",
         }}
@@ -135,6 +137,7 @@ export default function Sidebar({ isCollapsed, onToggleCollapse, isMobileOpen, o
         <nav
           style={{
             flex: 1,
+            overflowY: "auto",
             padding: "16px 12px",
             display: "flex",
             flexDirection: "column",
