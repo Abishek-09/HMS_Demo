@@ -1,0 +1,73 @@
+/* =====================================================================
+   DESIGN TOKENS - GREENLEAF FAMILY CLINIC
+   ===================================================================== */
+
+:root {
+  /* Brand Palette */
+  --color-primary:        #2C5745;   /* deep forest green — dominant brand */
+  --color-primary-dark:   #24473A;   /* hover / pressed / gradient */
+  --color-primary-mid:    #3D6E58;   /* secondary buttons, icons */
+  --color-primary-tint:   #E7EFEA;   /* hover rows, selected states, mode chips */
+  --color-accent:         #EBE3A7;   /* warm pale gold — accent only (<= 10%) */
+  --color-accent-tint:    #F5F0C9;   /* accent hover / unpaid badge bg */
+
+  /* Neutrals */
+  --color-bg:             #FAF9F2;   /* app background (warm off-white) */
+  --color-surface:        #FFFFFF;   /* cards, tables, modals */
+  --color-text:           #1E2A24;   /* primary text (green-black) */
+  --color-text-muted:     #5F6F67;   /* secondary text, labels */
+  --color-border:         #DCE3DE;   /* dividers, input borders */
+  --color-danger:         #B3261E;   /* validation errors, destructive */
+  --color-warning:        #8A6A17;   /* unpaid status chip text */
+
+  /* Typography */
+  --font-sans:            'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-size-xs:         12px;
+  --font-size-sm:         14px;
+  --font-size-base:       16px;
+  --font-size-lg:         20px;
+  --font-size-xl:         24px;
+  --font-size-2xl:        32px;
+
+  --line-height-body:     1.5;
+  --line-height-heading:  1.2;
+
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  /* Shape & Radii */
+  --radius-sm:            4px;
+  --radius-md:            8px;       /* inputs, buttons */
+  --radius-lg:            12px;      /* cards */
+  --radius-xl:            16px;      /* modals */
+  --radius-full:          9999px;    /* chips, pills */
+
+  /* Shadows */
+  --shadow-sm:            0 1px 2px rgba(44, 87, 69, 0.06);
+  --shadow-md:            0 4px 12px rgba(44, 87, 69, 0.08);
+  --shadow-lg:            0 8px 24px rgba(44, 87, 69, 0.12);
+  --shadow-modal:         0 8px 24px rgba(44, 87, 69, 0.16);
+
+  /* Spacing Scale */
+  --space-1:              4px;
+  --space-2:              8px;
+  --space-3:              12px;
+  --space-4:              16px;
+  --space-6:              24px;
+  --space-8:              32px;
+  --space-12:             48px;
+
+  /* Transitions */
+  --transition-fast:      150ms ease-in-out;
+  --transition-normal:    200ms ease-in-out;
+
+  /* Focus ring */
+  --focus-ring:           0 0 0 2px #FFFFFF, 0 0 0 4px var(--color-primary);
+
+  /* Layout dimensions */
+  --sidebar-width:        240px;
+  --sidebar-collapsed:    72px;
+  --topbar-height:        64px;
+}

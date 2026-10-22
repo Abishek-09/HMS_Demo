@@ -1,0 +1,233 @@
+/* =====================================================================
+   PRINT STYLESHEET - A4 CLINICAL TEMPLATES
+   ===================================================================== */
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 15mm;
+  }
+
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide app shell and action controls */
+  .no-print,
+  .print-actions,
+  aside,
+  header,
+  nav,
+  button,
+  .sidebar,
+  .topbar {
+    display: none !important;
+  }
+
+  /* Remove all shadows and backgrounds from elements not meant to print */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Allow exact background colors on the header band */
+  .print-header-band {
+    background-color: #2C5745 !important;
+    color: #FFFFFF !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .print-header-band * {
+    color: #FFFFFF !important;
+  }
+
+  .print-header-band .clinic-sub {
+    color: #EBE3A7 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Container bounds */
+  .print-page {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #FFFFFF !important;
+  }
+
+  /* Page breaks */
+  .page-break-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .signature-area {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-top: 30px !important;
+  }
+
+  table {
+    page-break-inside: auto !important;
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+
+  tr {
+    page-break-inside: avoid !important;
+    page-break-after: auto !important;
+  }
+
+  th, td {
+    border-color: #333333 !important;
+  }
+}
+
+/* Screen Preview Styling for Print Pages */
+.print-screen-wrapper {
+  min-height: 100vh;
+  background-color: #ECEAE4;
+  padding: 32px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.print-actions-bar {
+  width: 100%;
+  max-width: 210mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  background: #FFFFFF;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+}
+
+.print-sheet {
+  width: 210mm;
+  min-height: 297mm;
+  background: #FFFFFF;
+  padding: 20mm 15mm;
+  box-shadow: var(--shadow-md);
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.print-header-band {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  padding: 16px 20px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.print-header-band h1 {
+  font-size: 20px;
+  color: #FFFFFF;
+  margin-bottom: 4px;
+}
+
+.print-header-band .clinic-sub {
+  font-size: 13px;
+  color: var(--color-accent);
+}
+
+.print-header-band .doctor-meta {
+  text-align: right;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.print-patient-strip {
+  background-color: var(--color-primary-tint);
+  border-left: 4px solid var(--color-primary);
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+  margin-bottom: 24px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.print-patient-strip strong {
+  color: var(--color-primary);
+}
+
+.rx-symbol {
+  font-family: serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+
+.print-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
+  font-size: 12px;
+}
+
+.print-table th {
+  border-bottom: 2px solid var(--color-primary);
+  padding: 8px 6px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.print-table td {
+  border-bottom: 1px solid #E5E7EB;
+  padding: 8px 6px;
+  vertical-align: top;
+}
+
+.print-block {
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+.print-block-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 3px;
+}
+
+.signature-area {
+  margin-top: auto;
+  padding-top: 40px;
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.signature-line {
+  display: inline-block;
+  min-width: 200px;
+  border-top: 1px solid #1E2A24;
+  padding-top: 6px;
+  font-size: 13px;
+}

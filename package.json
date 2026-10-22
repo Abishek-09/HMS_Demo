@@ -1,0 +1,23 @@
+{
+  "name": "demo-hospital",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "postinstall": "node -e \"const fs=require('fs'),p='node_modules/rollup/dist/native.js';if(fs.existsSync(p)){let c=fs.readFileSync(p,'utf8');if(!c.includes('@rollup/wasm-node/dist/native.js')){c=c.replace(/if \\(error instanceof Error && error.code === 'ERR_DLOPEN_FAILED'\\) \\{\\s*throw error;\\s*\\}/,\\\"if (error instanceof Error && error.code === 'ERR_DLOPEN_FAILED') { try { return require('@rollup/wasm-node/dist/native.js'); } catch { throw error; } }\\\");fs.writeFileSync(p,c);}}\""
+  },
+  "dependencies": {
+    "@rollup/wasm-node": "^4.65.0",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.11"
+  }
+}
